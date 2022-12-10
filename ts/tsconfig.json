@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es2020",
+        "module": "ES2020",
+        "declaration": true,
+        "baseUrl": ".",
+        "outDir": "../js",
+        "inlineSourceMap": false,
+        "noFallthroughCasesInSwitch": true,
+        "strict": true,
+        "removeComments": false,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true
+    },
+    "include": [
+        "./decl/*",
+        "./decl/RMMZData/*",
+        "./src/*",
+        "./src/rmmz_core/*",
+        "./src/rmmz_managers/*",
+        "./src/rmmz_objects/*",
+        "./src/rmmz_scenes/*",
+        "./src/rmmz_sprites/*",
+        "./src/rmmz_windows/*",
+    ]
+}
