@@ -10,11 +10,12 @@ class Window_ChoiceList extends Window_Command {
 
     constructor();
 
-    constructor() {
-        super(new Rectangle());
+    constructor(...args: any[]) {
+        super(...args as [Rectangle]);
     }
 
     initialize() {
+        super.initialize(new Rectangle());
         this.createCancelButton();
         this.openness = 0;
         this.deactivate();

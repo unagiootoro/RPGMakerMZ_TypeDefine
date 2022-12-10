@@ -11,12 +11,12 @@ class Window_NumberInput extends Window_Selectable {
 
     constructor();
 
-    constructor() {
-        super(new Rectangle());
+    constructor(...args: any[]) {
+        super(...args as [Rectangle]);
     }
 
     initialize() {
-        Window_Selectable.prototype.initialize.call(this, new Rectangle());
+        super.initialize(new Rectangle());
         this._number = 0;
         this._maxDigits = 1;
         this.openness = 0;
