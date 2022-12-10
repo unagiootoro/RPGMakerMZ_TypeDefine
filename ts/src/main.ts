@@ -187,7 +187,6 @@ const effekseerWasmUrl = "js/libs/effekseer.wasm";
 
 declare var $plugins: any[];
 declare var nw: any;
-declare var process: any;
 declare var effekseer: any;
 
 class Main {
@@ -307,11 +306,13 @@ class Main {
         }
     }
 
-    isPathRandomized() {
+    isPathRandomized(): boolean {
         // [Note] We cannot save the game properly when Gatekeeper Path
         //   Randomization is in effect.
         return (
+            // @ts-ignore
             typeof process === "object" &&
+            // @ts-ignore
             process.mainModule.filename.startsWith("/private/var")
         );
     }

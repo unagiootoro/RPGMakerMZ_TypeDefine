@@ -242,9 +242,10 @@ class _StorageManager {
         fs.writeFileSync(path, data);
     }
 
-    static fileDirectoryPath() {
+    static fileDirectoryPath(): string {
         // @ts-ignore
         const path = require("path");
+        // @ts-ignore
         const base = path.dirname(process.mainModule.filename);
         return path.join(base, "save/");
     }
