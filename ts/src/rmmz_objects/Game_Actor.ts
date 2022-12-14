@@ -19,7 +19,7 @@ class Game_Actor extends Game_Battler {
     protected _actionInputIndex!: number;
     protected _lastMenuSkill!: Game_Item;
     protected _lastBattleSkill!: Game_Item;
-    protected _lastCommandSymbol!: string;
+    protected _lastCommandSymbol!: string | null;
     protected _profile!: any;
     protected _stateSteps!: any;
 
@@ -893,7 +893,7 @@ class Game_Actor extends Game_Battler {
         return this._lastCommandSymbol;
     }
 
-    setLastCommandSymbol(symbol: string) {
+    setLastCommandSymbol(symbol: string | null) {
         this._lastCommandSymbol = symbol;
     }
 

@@ -11,8 +11,8 @@ class Game_Temp {
     protected _touchState!: string;
     protected _needsBattleRefresh!: boolean;
     protected _commonEventQueue!: number[];
-    protected _animationQueue!: AnimationRequest[];
-    protected _balloonQueue!: BalloonRequest[];
+    protected _animationQueue!: IAnimationRequest[];
+    protected _balloonQueue!: IBalloonRequest[];
     protected _lastActionData!: number[];
 
     constructor() {
@@ -174,13 +174,13 @@ class Game_Temp {
     }
 }
 
-interface AnimationRequest {
+interface IAnimationRequest {
     targets: (Game_CharacterBase | Game_BattlerBase)[];
     animationId: number;
     mirror: boolean;
 }
 
-interface BalloonRequest {
+interface IBalloonRequest {
     target: Game_CharacterBase;
     balloonId: number;
 }

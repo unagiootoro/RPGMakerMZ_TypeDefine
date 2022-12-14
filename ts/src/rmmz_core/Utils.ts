@@ -7,9 +7,9 @@
 class Utils {
     static _audioElement: any;
     static _videoElement: any;
-    static _hasEncryptedImages: any;
-    static _hasEncryptedAudio: any;
-    static _encryptionKey: any;
+    static _hasEncryptedImages?: boolean;
+    static _hasEncryptedAudio?: boolean;
+    static _encryptionKey?: string;
 
     constructor() {
         throw new Error("This is a static class");
@@ -254,7 +254,7 @@ class Utils {
      * @param {boolean} hasAudio - Whether the audio files are encrypted.
      * @param {string} key - The encryption key.
      */
-    static setEncryptionInfo(hasImages: boolean, hasAudio: boolean, key: string) {
+    static setEncryptionInfo(hasImages: boolean | undefined, hasAudio: boolean | undefined, key: string | undefined) {
         // [Note] This function is implemented for module independence.
         this._hasEncryptedImages = hasImages;
         this._hasEncryptedAudio = hasAudio;
@@ -293,7 +293,7 @@ class Utils {
         }
         const body = source.slice(16);
         const view = new DataView(body);
-        const key = this._encryptionKey.match(/.{2}/g);
+        const key = this._encryptionKey!.match(/.{2}/g)!;
         for (let i = 0; i < 16; i++) {
             view.setUint8(i, view.getUint8(i) ^ parseInt(key[i], 16));
         }

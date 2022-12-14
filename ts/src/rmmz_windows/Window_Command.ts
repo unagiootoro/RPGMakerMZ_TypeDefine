@@ -4,7 +4,7 @@
 // The superclass of windows for selecting a command.
 
 class Window_Command extends Window_Selectable {
-    protected _list!: any[];
+    protected _list!: IWindowCommand[];
 
     initialize(...args: any[]) {
         super.initialize(...args);
@@ -27,7 +27,7 @@ class Window_Command extends Window_Selectable {
 
     // prettier-ignore
     addCommand(
-        name: string, symbol: string, enabled = true, ext = null
+        name: string, symbol: string, enabled = true, ext: any = null
     ) {
         this._list.push({ name: name, symbol: symbol, enabled: enabled, ext: ext });
     }
@@ -44,20 +44,20 @@ class Window_Command extends Window_Selectable {
         return this._list[index].enabled;
     }
 
-    currentData() {
+    currentData(): IWindowCommand | null {
         return this.index() >= 0 ? this._list[this.index()] : null;
     }
 
     isCurrentItemEnabled() {
-        return this.currentData() ? this.currentData().enabled : false;
+        return this.currentData() ? this.currentData()!.enabled : false;
     }
 
-    currentSymbol() {
-        return this.currentData() ? this.currentData().symbol : null;
+    currentSymbol(): string | null {
+        return this.currentData() ? this.currentData()!.symbol : null;
     }
 
     currentExt() {
-        return this.currentData() ? this.currentData().ext : null;
+        return this.currentData() ? this.currentData()!.ext : null;
     }
 
     findSymbol(symbol: any) {
@@ -98,11 +98,11 @@ class Window_Command extends Window_Selectable {
         return "center";
     }
 
-    isOkEnabled() {
+    isOkEnabled(): boolean {
         return true;
     }
 
-    callOkHandler() {
+    callOkHandler(): void {
         const symbol = this.currentSymbol();
         if (this.isHandled(symbol)) {
             this.callHandler(symbol);
@@ -118,4 +118,11 @@ class Window_Command extends Window_Selectable {
         this.makeCommandList();
         Window_Selectable.prototype.refresh.call(this);
     }
+}
+
+interface IWindowCommand {
+    name: string;
+    symbol: string;
+    enabled: boolean;
+    ext: any;
 }

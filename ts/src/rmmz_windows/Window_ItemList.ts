@@ -4,7 +4,7 @@
 // The window for selecting an item on the item screen.
 
 class Window_ItemList extends Window_Selectable {
-    protected _category!: string;
+    protected _category!: string | null;
     protected _data!: any[];
 
     initialize(rect: Rectangle) {
@@ -13,7 +13,7 @@ class Window_ItemList extends Window_Selectable {
         this._data = [];
     }
 
-    setCategory(category: string) {
+    setCategory(category: string | null) {
         if (this._category !== category) {
             this._category = category;
             this.refresh();

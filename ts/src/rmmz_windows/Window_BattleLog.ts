@@ -5,12 +5,12 @@
 // handled as a window for convenience.
 
 class Window_BattleLog extends Window_Base {
-    _lines!: string[];
-    _methods!: { name: string, params: any[] }[];
-    _waitCount!: number;
-    _waitMode!: string;
-    _baseLineStack!: number[];
-    _spriteset!: Spriteset_Battle | null;
+    protected _lines!: string[];
+    protected _methods!: { name: string, params: any[] }[];
+    protected _waitCount!: number;
+    protected _waitMode!: string;
+    protected _baseLineStack!: number[];
+    protected _spriteset!: Spriteset_Battle | null;
 
     initialize(rect: Rectangle) {
         super.initialize(rect);

@@ -1,5 +1,7 @@
 declare namespace RMMZData {
-    interface Animation {
+    type Animation = AnimationMZ | AnimationMV;
+
+    interface AnimationMZ {
         id: number;
         displayType: number;
         effectName: string;
@@ -15,6 +17,33 @@ declare namespace RMMZData {
         scale: number;
         soundTimings: AnimationSoundTiming[];
         speed: number;
+    }
+
+    interface AnimationMV {
+        id: number;
+        animation1Hue: number;
+        animation1Name: string;
+        animation2Hue: number;
+        animation2Name: string;
+        frames:  number[][][];
+        name: string;
+        position: number;
+        timings:  AnimationTiming[];
+        flashTimings: AnimationFlashTiming[];
+        soundTimings: AnimationSoundTiming[];
+    }
+
+    interface AnimationTiming {
+        flashColor: [number, number, number, number];
+        flashDuration: number;
+        flashScope: number;
+        frame: number;
+        se: {
+            name: string;
+            pan: number;
+            pitch: number;
+            volume: number;
+        }
     }
 
     interface AnimationFlashTiming {

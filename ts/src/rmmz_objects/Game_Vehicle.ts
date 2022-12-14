@@ -54,7 +54,7 @@ class Game_Vehicle extends Game_Character {
         }
     }
 
-    vehicle() {
+    vehicle(): RMMZData.Vehicle | null {
         if (this.isBoat()) {
             return $dataSystem.boat;
         } else if (this.isShip()) {
@@ -67,7 +67,7 @@ class Game_Vehicle extends Game_Character {
     }
 
     loadSystemSettings() {
-        const vehicle = this.vehicle();
+        const vehicle = this.vehicle()!;
         this._mapId = vehicle.startMapId;
         this.setPosition(vehicle.startX, vehicle.startY);
         this.setImage(vehicle.characterName, vehicle.characterIndex);
@@ -139,7 +139,7 @@ class Game_Vehicle extends Game_Character {
     }
 
     playBgm() {
-        AudioManager.playBgm(this._bgm || this.vehicle().bgm);
+        AudioManager.playBgm(this._bgm || this.vehicle()!.bgm);
     }
 
     syncWithPlayer() {

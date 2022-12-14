@@ -13,14 +13,14 @@ class Stage extends PIXI.Container {
         this.initialize(...args);
     }
 
-    initialize(...args: any[]) {
+    initialize(...args: any[]): void {
         PIXI.Container.call(this);
     }
 
     /**
      * Destroys the stage.
      */
-    destroy() {
+    destroy(): void {
         const options = { children: true, texture: true };
         PIXI.Container.prototype.destroy.call(this, options);
     }

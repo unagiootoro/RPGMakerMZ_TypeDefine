@@ -46,11 +46,11 @@ class Sprite_Battleback extends TilingSprite {
         return ImageManager.loadBattleback2(this.battleback2Name());
     }
 
-    battleback1Name() {
+    battleback1Name(): string {
         if (BattleManager.isBattleTest()) {
             return $dataSystem.battleback1Name;
         } else if ($gameMap.battleback1Name() !== null) {
-            return $gameMap.battleback1Name();
+            return $gameMap.battleback1Name()!;
         } else if ($gameMap.isOverworld()) {
             return this.overworldBattleback1Name();
         } else {
@@ -58,11 +58,11 @@ class Sprite_Battleback extends TilingSprite {
         }
     }
 
-    battleback2Name() {
+    battleback2Name(): string {
         if (BattleManager.isBattleTest()) {
             return $dataSystem.battleback2Name;
         } else if ($gameMap.battleback2Name() !== null) {
-            return $gameMap.battleback2Name();
+            return $gameMap.battleback2Name()!;
         } else if ($gameMap.isOverworld()) {
             return this.overworldBattleback2Name();
         } else {

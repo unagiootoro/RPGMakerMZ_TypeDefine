@@ -205,13 +205,13 @@ class Window_Selectable extends Window_Scrollable {
         this._handlers[symbol] = method;
     }
 
-    isHandled(symbol: string) {
-        return !!this._handlers[symbol];
+    isHandled(symbol: string | null) {
+        return !!this._handlers[symbol as any];
     }
 
-    callHandler(symbol: string) {
+    callHandler(symbol: string | null) {
         if (this.isHandled(symbol)) {
-            this._handlers[symbol]();
+            this._handlers[symbol as any]();
         }
     }
 

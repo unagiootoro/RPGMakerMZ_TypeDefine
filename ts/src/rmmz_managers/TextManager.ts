@@ -96,20 +96,20 @@ class TextManager {
         throw new Error("This is a static class");
     }
 
-    static basic(basicId: number) {
+    static basic(basicId: number): string {
         return $dataSystem.terms.basic[basicId] || "";
     }
 
-    static param(paramId: number) {
+    static param(paramId: number): string {
         return $dataSystem.terms.params[paramId] || "";
     }
 
-    static command(commandId: number) {
+    static command(commandId: number): string {
         return $dataSystem.terms.commands[commandId] || "";
     }
 
-    static message(messageId: number) {
-        return $dataSystem.terms.messages[messageId] || "";
+    static message(messageId: string): string {
+        return ($dataSystem.terms.messages as any)[messageId] || "";
     }
 
     static getter(method: string, param: number | string): any {

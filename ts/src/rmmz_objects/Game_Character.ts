@@ -54,7 +54,7 @@ class Game_Character extends Game_CharacterBase {
     protected _moveRouteForcing!: boolean;
     protected _moveRoute!: any;
     protected _moveRouteIndex!: number;
-    protected _originalMoveRoute!: null;
+    protected _originalMoveRoute!: RMMZData.MoveRoute | null;
     protected _originalMoveRouteIndex!: number;
     protected _waitCount!: number;
 
@@ -87,7 +87,7 @@ class Game_Character extends Game_CharacterBase {
         return this._moveRouteForcing;
     }
 
-    setMoveRoute(moveRoute: null) {
+    setMoveRoute(moveRoute: RMMZData.MoveRoute) {
         if (this._moveRouteForcing) {
             this._originalMoveRoute = moveRoute;
             this._originalMoveRouteIndex = 0;

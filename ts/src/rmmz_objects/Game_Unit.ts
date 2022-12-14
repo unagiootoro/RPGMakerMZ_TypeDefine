@@ -50,7 +50,7 @@ class Game_Unit {
         return this.aliveMembers().reduce((r, member) => r + member.tgr, 0);
     }
 
-    randomTarget() {
+    randomTarget(): Game_Battler {
         let tgrRand = Math.random() * this.tgrSum();
         let target = null;
         for (const member of this.aliveMembers()) {
@@ -59,7 +59,7 @@ class Game_Unit {
                 target = member;
             }
         }
-        return target;
+        return target!;
     }
 
     randomDeadTarget() {

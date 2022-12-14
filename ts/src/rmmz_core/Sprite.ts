@@ -27,7 +27,7 @@ class Sprite extends PIXI.Sprite {
         this.initialize(...args as [])
     }
 
-    initialize(...args: any[]) {
+    initialize(...args: any[]): void {
         const [bitmap] = args;
         if (!Sprite._emptyBaseTexture) {
             Sprite._emptyBaseTexture = new PIXI.BaseTexture();
@@ -129,7 +129,7 @@ class Sprite extends PIXI.Sprite {
     //     PIXI.Sprite.prototype.destroy.call(this, options);
     // }
 
-    destroy(options?: any) {
+    destroy(options?: any): void {
         options = { children: true, texture: true };
         PIXI.Sprite.prototype.destroy.call(this, options);
     }
@@ -148,7 +148,7 @@ class Sprite extends PIXI.Sprite {
     /**
      * Makes the sprite "hidden".
      */
-    hide() {
+    hide(): void {
         this._hidden = true;
         this.updateVisibility();
     }
@@ -156,7 +156,7 @@ class Sprite extends PIXI.Sprite {
     /**
      * Releases the "hidden" state of the sprite.
      */
-    show() {
+    show(): void {
         this._hidden = false;
         this.updateVisibility();
     }
@@ -164,7 +164,7 @@ class Sprite extends PIXI.Sprite {
     /**
      * Reflects the "hidden" state of the sprite to the visible state.
      */
-    updateVisibility() {
+    updateVisibility(): void {
         this.visible = !this._hidden;
     }
 
@@ -174,7 +174,7 @@ class Sprite extends PIXI.Sprite {
      * @param {number} x - The x coordinate of the sprite.
      * @param {number} y - The y coordinate of the sprite.
      */
-    move(x: number, y: number) {
+    move(x: number, y: number): void {
         this.x = x;
         this.y = y;
     }
@@ -187,7 +187,7 @@ class Sprite extends PIXI.Sprite {
      * @param {number} width - The width of the frame.
      * @param {number} height - The height of the frame.
      */
-    setFrame(x: number, y: number, width: number, height: number) {
+    setFrame(x: number, y: number, width: number, height: number): void {
         this._refreshFrame = false;
         const frame = this._frame;
         if (
@@ -209,7 +209,7 @@ class Sprite extends PIXI.Sprite {
      *
      * @param {number} hue - The hue value (-360, 360).
      */
-    setHue(hue: any) {
+    setHue(hue: number): void {
         if (this._hue !== Number(hue)) {
             this._hue = Number(hue);
             this._updateColorFilter();
@@ -221,7 +221,7 @@ class Sprite extends PIXI.Sprite {
      *
      * @returns {array} The blend color [r, g, b, a].
      */
-    getBlendColor() {
+    getBlendColor(): number[] {
         return this._blendColor.clone();
     }
 
@@ -230,7 +230,7 @@ class Sprite extends PIXI.Sprite {
      *
      * @param {array} color - The blend color [r, g, b, a].
      */
-    setBlendColor(color: any[]) {
+    setBlendColor(color: number[]): void {
         if (!(color instanceof Array)) {
             throw new Error("Argument must be an array");
         }
@@ -245,7 +245,7 @@ class Sprite extends PIXI.Sprite {
      *
      * @returns {array} The color tone [r, g, b, gray].
      */
-    getColorTone() {
+    getColorTone(): number[] {
         return this._colorTone.clone();
     }
 
@@ -254,7 +254,7 @@ class Sprite extends PIXI.Sprite {
      *
      * @param {array} tone - The color tone [r, g, b, gray].
      */
-    setColorTone(tone: any[]) {
+    setColorTone(tone: number[]): void {
         if (!(tone instanceof Array)) {
             throw new Error("Argument must be an array");
         }
@@ -264,7 +264,7 @@ class Sprite extends PIXI.Sprite {
         }
     }
 
-    _onBitmapChange() {
+    _onBitmapChange(): void {
         if (this._bitmap) {
             this._refreshFrame = true;
             this._bitmap.addLoadListener(this._onBitmapLoad.bind(this));
@@ -274,7 +274,7 @@ class Sprite extends PIXI.Sprite {
         }
     }
 
-    _onBitmapLoad(bitmapLoaded: any) {
+    _onBitmapLoad(bitmapLoaded: Bitmap): void {
         if (bitmapLoaded === this._bitmap) {
             if (this._refreshFrame && this._bitmap) {
                 this._refreshFrame = false;
@@ -285,7 +285,7 @@ class Sprite extends PIXI.Sprite {
         this._refresh();
     }
 
-    _refresh() {
+    _refresh(): void {
         const texture = this.texture;
         const frameX = Math.floor(this._frame.x);
         const frameY = Math.floor(this._frame.y);
@@ -314,7 +314,7 @@ class Sprite extends PIXI.Sprite {
         }
     }
 
-    _createColorFilter() {
+    _createColorFilter(): void {
         this._colorFilter = new ColorFilter();
         if (!this.filters) {
             this.filters = [];
@@ -322,7 +322,7 @@ class Sprite extends PIXI.Sprite {
         this.filters.push(this._colorFilter);
     }
 
-    _updateColorFilter() {
+    _updateColorFilter(): void {
         if (!this._colorFilter) {
             this._createColorFilter();
         }

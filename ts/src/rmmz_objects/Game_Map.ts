@@ -185,7 +185,7 @@ class Game_Map {
     setupEvents() {
         this._events = [];
         this._commonEvents = [];
-        for (const event of $dataMap.events.filter((event: Game_Event) => !!event)) {
+        for (const event of $dataMap.events.filter(event => !!event) as RMMZData.Event[]) {
             this._events[event.id] = new Game_Event(this._mapId, event.id);
         }
         for (const commonEvent of this.parallelCommonEvents()) {
@@ -798,7 +798,7 @@ class Game_Map {
 
     setupTestEvent() {
         if (window.$testEvent) {
-            this._interpreter.setup($testEvent, 0);
+            this._interpreter.setup($testEvent!, 0);
             $testEvent = null;
             return true;
         }

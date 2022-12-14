@@ -287,30 +287,30 @@ abstract class Game_BattlerBase {
         return this.stateIcons().concat(this.buffIcons());
     }
 
-    traitObjects() {
+    traitObjects(): { traits: RMMZData.Trait[] }[] {
         // Returns an array of the all objects having traits. States only here.
         return this.states();
     }
 
-    allTraits() {
-        return this.traitObjects().reduce((r, obj) => r.concat(obj.traits), []);
+    allTraits(): RMMZData.Trait[] {
+        return this.traitObjects().reduce((r: RMMZData.Trait[], obj) => r.concat(obj.traits), []);
     }
 
-    traits(code: number) {
-        return this.allTraits().filter((trait: { code: any; }) => trait.code === code);
+    traits(code: number): RMMZData.Trait[] {
+        return this.allTraits().filter((trait: RMMZData.Trait) => trait.code === code);
     }
 
-    traitsWithId(code: any, id: any) {
+    traitsWithId(code: any, id: number) {
         return this.allTraits().filter(
             (            trait: { code: any; dataId: any; }) => trait.code === code && trait.dataId === id
         );
     }
 
-    traitsPi(code: number, id: any) {
+    traitsPi(code: number, id: number) {
         return this.traitsWithId(code, id).reduce((r: number, trait: { value: number; }) => r * trait.value, 1);
     }
 
-    traitsSum(code: number, id: any) {
+    traitsSum(code: number, id: number) {
         return this.traitsWithId(code, id).reduce((r: any, trait: { value: any; }) => r + trait.value, 0);
     }
 
@@ -318,8 +318,8 @@ abstract class Game_BattlerBase {
         return this.traits(code).reduce((r: any, trait: { value: any; }) => r + trait.value, 0);
     }
 
-    traitsSet(code: number) {
-        return this.traits(code).reduce((r: string | any[], trait: { dataId: any; }) => r.concat(trait.dataId), []);
+    traitsSet(code: number): number[] {
+        return this.traits(code).reduce((r: number[], trait: RMMZData.Trait) => r.concat(trait.dataId), []);
     }
 
     paramBase(paramId: number) {
@@ -346,7 +346,7 @@ abstract class Game_BattlerBase {
         return Infinity;
     }
 
-    paramRate(paramId: any) {
+    paramRate(paramId: number) {
         return this.traitsPi(Game_BattlerBase.TRAIT_PARAM, paramId);
     }
 
@@ -372,15 +372,15 @@ abstract class Game_BattlerBase {
         return this.traitsPi(Game_BattlerBase.TRAIT_SPARAM, sparamId);
     }
 
-    elementRate(elementId: any) {
+    elementRate(elementId: number) {
         return this.traitsPi(Game_BattlerBase.TRAIT_ELEMENT_RATE, elementId);
     }
 
-    debuffRate(paramId: any) {
+    debuffRate(paramId: number) {
         return this.traitsPi(Game_BattlerBase.TRAIT_DEBUFF_RATE, paramId);
     }
 
-    stateRate(stateId: any) {
+    stateRate(stateId: number) {
         return this.traitsPi(Game_BattlerBase.TRAIT_STATE_RATE, stateId);
     }
 
@@ -388,7 +388,7 @@ abstract class Game_BattlerBase {
         return this.traitsSet(Game_BattlerBase.TRAIT_STATE_RESIST);
     }
 
-    isStateResist(stateId: any) {
+    isStateResist(stateId: number) {
         return this.stateResistSet().includes(stateId);
     }
 
@@ -400,7 +400,7 @@ abstract class Game_BattlerBase {
         return this.traitsSet(Game_BattlerBase.TRAIT_ATTACK_STATE);
     }
 
-    attackStatesRate(stateId: any) {
+    attackStatesRate(stateId: number) {
         return this.traitsSum(Game_BattlerBase.TRAIT_ATTACK_STATE, stateId);
     }
 
@@ -421,7 +421,7 @@ abstract class Game_BattlerBase {
         return this.traitsSet(Game_BattlerBase.TRAIT_STYPE_ADD);
     }
 
-    isSkillTypeSealed(stypeId: any) {
+    isSkillTypeSealed(stypeId: number) {
         return this.traitsSet(Game_BattlerBase.TRAIT_STYPE_SEAL).includes(stypeId);
     }
 
@@ -429,15 +429,15 @@ abstract class Game_BattlerBase {
         return this.traitsSet(Game_BattlerBase.TRAIT_SKILL_ADD);
     }
 
-    isSkillSealed(skillId: any) {
+    isSkillSealed(skillId: number) {
         return this.traitsSet(Game_BattlerBase.TRAIT_SKILL_SEAL).includes(skillId);
     }
 
-    isEquipWtypeOk(wtypeId: any) {
+    isEquipWtypeOk(wtypeId: number) {
         return this.traitsSet(Game_BattlerBase.TRAIT_EQUIP_WTYPE).includes(wtypeId);
     }
 
-    isEquipAtypeOk(atypeId: any) {
+    isEquipAtypeOk(atypeId: number) {
         return this.traitsSet(Game_BattlerBase.TRAIT_EQUIP_ATYPE).includes(atypeId);
     }
 
@@ -475,7 +475,7 @@ abstract class Game_BattlerBase {
         return set.length > 0 ? Math.max(...set) : 0;
     }
 
-    partyAbility(abilityId: any) {
+    partyAbility(abilityId: number) {
         return this.traits(Game_BattlerBase.TRAIT_PARTY_ABILITY).some(
             (            trait: { dataId: any; }) => trait.dataId === abilityId
         );
@@ -715,7 +715,7 @@ abstract class Game_BattlerBase {
         );
     }
 
-    meetsItemConditions(item: any) {
+    meetsItemConditions(item: RMMZData.Item) {
         return this.meetsUsableItemConditions(item) && $gameParty.hasItem(item);
     }
 
@@ -731,7 +731,7 @@ abstract class Game_BattlerBase {
         }
     }
 
-    canEquip(item: ItemObject) {
+    canEquip(item: ItemObject): boolean {
         if (!item) {
             return false;
         } else if (DataManager.isWeapon(item)) {
@@ -743,14 +743,14 @@ abstract class Game_BattlerBase {
         }
     }
 
-    canEquipWeapon(item: any) {
+    canEquipWeapon(item: any): boolean {
         return (
             this.isEquipWtypeOk(item.wtypeId) &&
             !this.isEquipTypeSealed(item.etypeId)
         );
     }
 
-    canEquipArmor(item: any) {
+    canEquipArmor(item: any): boolean {
         return (
             this.isEquipAtypeOk(item.atypeId) &&
             !this.isEquipTypeSealed(item.etypeId)

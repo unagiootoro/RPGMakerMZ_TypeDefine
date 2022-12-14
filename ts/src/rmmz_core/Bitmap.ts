@@ -28,7 +28,7 @@ class Bitmap {
         this.initialize(...args);
     }
 
-    initialize(width: number, height: number) {
+    initialize(width: number, height: number): void {
         this._canvas = null;
         this._context = null;
         this._baseTexture = null;
@@ -101,7 +101,7 @@ class Bitmap {
      * @param {string} url - The image url of the texture.
      * @returns {Bitmap} The new bitmap object.
      */
-    static load(url: any) {
+    static load(url: string): Bitmap {
         const bitmap = Object.create(Bitmap.prototype);
         bitmap.initialize();
         bitmap._url = url;
@@ -115,7 +115,7 @@ class Bitmap {
      * @param {Stage} stage - The stage object.
      * @returns {Bitmap} The new bitmap object.
      */
-    static snap(stage: { worldTransform: { identity: () => void; }; } | null) {
+    static snap(stage: Stage | null): Bitmap {
         const width = Graphics.width;
         const height = Graphics.height;
         const bitmap = new Bitmap(width, height);
@@ -139,7 +139,7 @@ class Bitmap {
      *
      * @returns {boolean} True if the bitmap is ready to render.
      */
-    isReady() {
+    isReady(): boolean {
         return this._loadingState === "loaded" || this._loadingState === "none";
     }
 
@@ -148,7 +148,7 @@ class Bitmap {
      *
      * @returns {boolean} True if a loading error has occurred.
      */
-    isError() {
+    isError(): boolean {
         return this._loadingState === "error";
     }
 
@@ -275,7 +275,7 @@ class Bitmap {
     /**
      * Destroys the bitmap.
      */
-    destroy() {
+    destroy(): void {
         if (this._baseTexture) {
             this._baseTexture.destroy();
             this._baseTexture = null;
@@ -289,7 +289,7 @@ class Bitmap {
      * @param {number} width - The new width of the bitmap.
      * @param {number} height - The new height of the bitmap.
      */
-    resize(width: number, height: number) {
+    resize(width: number, height: number): void {
         width = Math.max(width || 0, 1);
         height = Math.max(height || 0, 1);
         this.canvas.width = width;
@@ -311,7 +311,7 @@ class Bitmap {
      * @param {number} [dw=sw] The width to draw the image in the destination.
      * @param {number} [dh=sh] The height to draw the image in the destination.
      */
-    blt(source: any, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw?: number, dh?: number) {
+    blt(source: any, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw?: number, dh?: number): void {
         dw = dw || sw;
         dh = dh || sh;
         try {
@@ -331,7 +331,7 @@ class Bitmap {
      * @param {number} y - The y coordinate of the pixel in the bitmap.
      * @returns {string} The pixel color (hex format).
      */
-    getPixel(x: any, y: any) {
+    getPixel(x: any, y: any): string {
         const data = this.context.getImageData(x, y, 1, 1).data;
         let result = "#";
         for (let i = 0; i < 3; i++) {
@@ -347,7 +347,7 @@ class Bitmap {
      * @param {number} y - The y coordinate of the pixel in the bitmap.
      * @returns {string} The alpha value.
      */
-    getAlphaPixel(x: any, y: any) {
+    getAlphaPixel(x: any, y: any): number {
         const data = this.context.getImageData(x, y, 1, 1).data;
         return data[3];
     }
@@ -360,7 +360,7 @@ class Bitmap {
      * @param {number} width - The width of the rectangle to clear.
      * @param {number} height - The height of the rectangle to clear.
      */
-    clearRect(x: number, y: number, width: any, height: any) {
+    clearRect(x: number, y: number, width: number, height: number): void {
         this.context.clearRect(x, y, width, height);
         this._baseTexture!.update();
     }
@@ -368,7 +368,7 @@ class Bitmap {
     /**
      * Clears the entire bitmap.
      */
-    clear() {
+    clear(): void {
         this.clearRect(0, 0, this.width, this.height);
     }
 
@@ -381,7 +381,7 @@ class Bitmap {
      * @param {number} height - The height of the rectangle to fill.
      * @param {string} color - The color of the rectangle in CSS format.
      */
-    fillRect(x: number, y: number, width: any, height: any, color: any) {
+    fillRect(x: number, y: number, width: number, height: number, color: string): void {
         const context = this.context;
         context.save();
         context.fillStyle = color;
@@ -395,7 +395,7 @@ class Bitmap {
      *
      * @param {string} color - The color of the rectangle in CSS format.
      */
-    fillAll(color: any) {
+    fillAll(color: string): void {
         this.fillRect(0, 0, this.width, this.height, color);
     }
 
@@ -408,7 +408,7 @@ class Bitmap {
      * @param {number} height - The height of the rectangle to fill.
      * @param {string} color - The color of the rectangle in CSS format.
      */
-    strokeRect(x: any, y: any, width: any, height: any, color: any) {
+    strokeRect(x: number, y: number, width: number, height: number, color: string): void {
         const context = this.context;
         context.save();
         context.strokeStyle = color;
@@ -431,7 +431,7 @@ class Bitmap {
      */
     gradientFillRect(
         x: number, y: number, width: number, height: number, color1: string, color2: string, vertical?: boolean
-    ) {
+    ): void {
         const context = this.context;
         const x1 = vertical ? x : x + width;
         const y1 = vertical ? y + height : y;
@@ -453,7 +453,7 @@ class Bitmap {
      * @param {number} radius - The radius of the circle.
      * @param {string} color - The color of the circle in CSS format.
      */
-    drawCircle(x: any, y: any, radius: any, color: any) {
+    drawCircle(x: number, y: number, radius: number, color: string): void {
         const context = this.context;
         context.save();
         context.fillStyle = color;
@@ -474,7 +474,7 @@ class Bitmap {
      * @param {number} lineHeight - The height of the text line.
      * @param {string} align - The alignment of the text.
      */
-    drawText(text: any, x: any, y: number, maxWidth: number | undefined, lineHeight: number, align: CanvasTextAlign = "left") {
+    drawText(text: string | number, x: number, y: number, maxWidth: number | undefined, lineHeight: number, align: CanvasTextAlign = "left"): void {
         // [Note] Different browser makes different rendering with
         //   textBaseline == 'top'. So we use 'alphabetic' here.
         const context = this.context;
@@ -506,7 +506,7 @@ class Bitmap {
      * @param {string} text - The text to be measured.
      * @returns {number} The width of the text in pixels.
      */
-    measureTextWidth(text: any) {
+    measureTextWidth(text: string) {
         const context = this.context;
         context.save();
         context.font = this._makeFontNameText();
@@ -520,7 +520,7 @@ class Bitmap {
      *
      * @param {function} listner - The callback function.
      */
-    addLoadListener(listner: Function) {
+    addLoadListener(listner: Function): void {
         if (!this.isReady()) {
             this._loadListeners.push(listner);
         } else {
@@ -531,17 +531,17 @@ class Bitmap {
     /**
      * Tries to load the image again.
      */
-    retry() {
+    retry(): void {
         this._startLoading();
     }
 
-    _makeFontNameText() {
+    _makeFontNameText(): string {
         const italic = this.fontItalic ? "Italic " : "";
         const bold = this.fontBold ? "Bold " : "";
         return italic + bold + this.fontSize + "px " + this.fontFace;
     }
 
-    _drawTextOutline(text: any, tx: any, ty: number, maxWidth: any) {
+    _drawTextOutline(text: any, tx: any, ty: number, maxWidth: number): void {
         const context = this.context;
         context.strokeStyle = this.outlineColor;
         context.lineWidth = this.outlineWidth;
@@ -549,7 +549,7 @@ class Bitmap {
         context.strokeText(text, tx, ty, maxWidth);
     }
 
-    _drawTextBody(text: any, tx: any, ty: number, maxWidth: any) {
+    _drawTextBody(text: any, tx: any, ty: number, maxWidth: number) {
         const context = this.context;
         context.fillStyle = this.textColor;
         context.fillText(text, tx, ty, maxWidth);
@@ -582,7 +582,7 @@ class Bitmap {
         }
     }
 
-    _createBaseTexture(source: any) {
+    _createBaseTexture(source: any): void {
         this._baseTexture = new PIXI.BaseTexture(source);
         (this._baseTexture as any).mipmap = false;
         (this._baseTexture as any).width = source.width;
@@ -590,7 +590,7 @@ class Bitmap {
         this._updateScaleMode();
     }
 
-    _updateScaleMode() {
+    _updateScaleMode(): void {
         if (this._baseTexture) {
             if (this._smooth) {
                 this._baseTexture.scaleMode = PIXI.SCALE_MODES.LINEAR;
@@ -600,7 +600,7 @@ class Bitmap {
         }
     }
 
-    _startLoading() {
+    _startLoading(): void {
         this._image = new Image();
         this._image.onload = this._onLoad.bind(this);
         this._image.onerror = this._onError.bind(this);
@@ -617,7 +617,7 @@ class Bitmap {
         }
     }
 
-    _startDecrypting() {
+    _startDecrypting(): void {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", this._url + "_");
         xhr.responseType = "arraybuffer";
@@ -626,7 +626,7 @@ class Bitmap {
         xhr.send();
     }
 
-    _onXhrLoad(xhr: XMLHttpRequest) {
+    _onXhrLoad(xhr: XMLHttpRequest): void {
         if (xhr.status < 400) {
             const arrayBuffer = Utils.decryptArrayBuffer(xhr.response);
             const blob = new Blob([arrayBuffer]);
@@ -636,7 +636,7 @@ class Bitmap {
         }
     }
 
-    _onLoad() {
+    _onLoad(): void {
         if (Utils.hasEncryptedImages()) {
             URL.revokeObjectURL(this._image!.src);
         }
@@ -645,14 +645,14 @@ class Bitmap {
         this._callLoadListeners();
     }
 
-    _callLoadListeners() {
+    _callLoadListeners(): void {
         while (this._loadListeners.length > 0) {
             const listener = this._loadListeners.shift()!;
             listener(this);
         }
     }
 
-    _onError() {
+    _onError(): void {
         this._loadingState = "error";
     }
 }

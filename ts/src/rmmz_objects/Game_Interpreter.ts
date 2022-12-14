@@ -11,7 +11,7 @@ class Game_Interpreter {
     protected _freezeChecker!: number;
     protected _mapId!: number;
     protected _eventId!: number;
-    protected _list!: any;
+    protected _list!: RMMZData.EventCommand[] | null;
     protected _index!: number;
     protected _waitCount!: number;
     protected _waitMode!: string;
@@ -52,7 +52,7 @@ class Game_Interpreter {
         this._childInterpreter = null;
     }
 
-    setup(list: any, eventId?: number) {
+    setup(list: RMMZData.EventCommand[], eventId?: number) {
         this.clear();
         this._mapId = $gameMap.mapId();
         this._eventId = eventId || 0;
@@ -63,7 +63,7 @@ class Game_Interpreter {
     loadImages() {
         // [Note] The certain versions of MV had a more complicated preload scheme.
         //   However it is usually sufficient to preload face and picture images.
-        const list = this._list.slice(0, 200);
+        const list = this._list!.slice(0, 200);
         for (const command of list) {
             switch (command.code) {
                 case 101: // Show Text
@@ -95,11 +95,11 @@ class Game_Interpreter {
         return false;
     }
 
-    isRunning() {
+    isRunning(): boolean {
         return !!this._list;
     }
 
-    update() {
+    update(): void {
         while (this.isRunning()) {
             if (this.updateChild() || this.updateWait()) {
                 break;
@@ -231,17 +231,17 @@ class Game_Interpreter {
     }
 
     skipBranch() {
-        while (this._list[this._index + 1].indent > this._indent) {
+        while (this._list![this._index + 1].indent > this._indent) {
             this._index++;
         }
     }
 
     currentCommand() {
-        return this._list[this._index];
+        return this._list![this._index];
     }
 
     nextEventCode() {
-        const command = this._list[this._index + 1];
+        const command = this._list![this._index + 1];
         if (command) {
             return command.code;
         } else {
@@ -636,7 +636,7 @@ class Game_Interpreter {
     // Break Loop
     command113() {
         let depth = 0;
-        while (this._index < this._list.length - 1) {
+        while (this._index < this._list!.length - 1) {
             this._index++;
             const command = this.currentCommand();
             if (command.code === 112) {
@@ -655,12 +655,12 @@ class Game_Interpreter {
 
     // Exit Event Processing
     command115() {
-        this._index = this._list.length;
+        this._index = this._list!.length;
         return true;
     }
 
     // Common Event
-    command117(params: (string | number)[]) {
+    command117(params: number[]) {
         const commonEvent = $dataCommonEvents[params[0]];
         if (commonEvent) {
             const eventId = this.isOnCurrentMap() ? this._eventId : 0;
@@ -669,7 +669,7 @@ class Game_Interpreter {
         return true;
     }
 
-    setupChild(list: any, eventId: any) {
+    setupChild(list: any, eventId: number) {
         this._childInterpreter = new Game_Interpreter(this._depth + 1);
         this._childInterpreter.setup(list, eventId);
     }
@@ -682,8 +682,8 @@ class Game_Interpreter {
     // Jump to Label
     command119(params: any[]) {
         const labelName = params[0];
-        for (let i = 0; i < this._list.length; i++) {
-            const command = this._list[i];
+        for (let i = 0; i < this._list!.length; i++) {
+            const command = this._list![i];
             if (command.code === 118 && command.parameters[0] === labelName) {
                 this.jumpTo(i);
                 break;
@@ -698,7 +698,7 @@ class Game_Interpreter {
         const endIndex = Math.max(index, lastIndex);
         let indent = this._indent;
         for (let i = startIndex; i <= endIndex; i++) {
-            const newIndent = this._list[i].indent;
+            const newIndent = this._list![i].indent;
             if (newIndent !== indent) {
                 this._branch[indent] = null;
                 indent = newIndent;

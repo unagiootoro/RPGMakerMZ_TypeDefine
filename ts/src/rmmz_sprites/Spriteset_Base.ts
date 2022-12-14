@@ -135,7 +135,7 @@ class Spriteset_Base extends Sprite {
         }
     }
 
-    createAnimation(request: { animationId: string | number; targets: any; mirror: any; }) {
+    createAnimation(request: IAnimationRequest) {
         const animation = $dataAnimations[request.animationId];
         const targets = request.targets;
         const mirror = request.mirror;
@@ -169,8 +169,8 @@ class Spriteset_Base extends Sprite {
         this._animationSprites.push(sprite);
     }
 
-    isMVAnimation(animation: { frames: any; }) {
-        return !!animation.frames;
+    isMVAnimation(animation: RMMZData.Animation): boolean {
+        return !!(animation as any).frames;
     }
 
     makeTargetSprites(targets: any) {
@@ -188,9 +188,9 @@ class Spriteset_Base extends Sprite {
         return this._animationSprites[this._animationSprites.length - 1];
     }
 
-    isAnimationForEach(animation: any) {
+    isAnimationForEach(animation: RMMZData.Animation) {
         const mv = this.isMVAnimation(animation);
-        return mv ? animation.position !== 3 : animation.displayType === 0;
+        return mv ? (animation as RMMZData.AnimationMV).position !== 3 : (animation as RMMZData.AnimationMZ).displayType === 0;
     }
 
     animationBaseDelay() {
@@ -201,7 +201,7 @@ class Spriteset_Base extends Sprite {
         return 12;
     }
 
-    animationShouldMirror(target: { isActor: () => any; }) {
+    animationShouldMirror(target: Game_Battler) {
         return target && target.isActor && target.isActor();
     }
 

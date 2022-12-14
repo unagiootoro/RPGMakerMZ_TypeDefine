@@ -26,11 +26,11 @@ class Game_ActionResult {
         this.initialize(...args);
     }
 
-    initialize() {
+    initialize(): void {
         this.clear();
     }
 
-    clear() {
+    clear(): void {
         this.used = false;
         this.missed = false;
         this.evaded = false;
@@ -49,15 +49,15 @@ class Game_ActionResult {
         this.removedBuffs = [];
     }
 
-    addedStateObjects() {
+    addedStateObjects(): RMMZData.State[] {
         return this.addedStates.map(id => $dataStates[id]);
     }
 
-    removedStateObjects() {
+    removedStateObjects(): RMMZData.State[] {
         return this.removedStates.map(id => $dataStates[id]);
     }
 
-    isStatusAffected() {
+    isStatusAffected(): boolean {
         return (
             this.addedStates.length > 0 ||
             this.removedStates.length > 0 ||
@@ -67,31 +67,31 @@ class Game_ActionResult {
         );
     }
 
-    isHit() {
+    isHit(): boolean {
         return this.used && !this.missed && !this.evaded;
     }
 
-    isStateAdded(stateId: any) {
+    isStateAdded(stateId: number): boolean {
         return this.addedStates.includes(stateId);
     }
 
-    pushAddedState(stateId: any) {
+    pushAddedState(stateId: number): void {
         if (!this.isStateAdded(stateId)) {
             this.addedStates.push(stateId);
         }
     }
 
-    isStateRemoved(stateId: any) {
+    isStateRemoved(stateId: number): boolean {
         return this.removedStates.includes(stateId);
     }
 
-    pushRemovedState(stateId: any) {
+    pushRemovedState(stateId: number): void {
         if (!this.isStateRemoved(stateId)) {
             this.removedStates.push(stateId);
         }
     }
 
-    isBuffAdded(paramId: number) {
+    isBuffAdded(paramId: number): boolean {
         return this.addedBuffs.includes(paramId);
     }
 

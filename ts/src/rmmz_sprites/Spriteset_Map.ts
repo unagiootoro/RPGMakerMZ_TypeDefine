@@ -185,7 +185,7 @@ class Spriteset_Map extends Spriteset_Base {
         }
     }
 
-    createBalloon(request: BalloonRequest) {
+    createBalloon(request: IBalloonRequest) {
         const targetSprite = this.findTargetSprite(request.target);
         if (targetSprite) {
             const sprite = new Sprite_Balloon();

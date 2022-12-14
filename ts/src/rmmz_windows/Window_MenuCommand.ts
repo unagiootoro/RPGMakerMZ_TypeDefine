@@ -10,7 +10,7 @@ class Window_MenuCommand extends Window_Command {
         this._canRepeat = false;
     }
 
-    static _lastCommandSymbol = null;
+    static _lastCommandSymbol: string | null = null;
 
     static initCommandPosition() {
         this._lastCommandSymbol = null;

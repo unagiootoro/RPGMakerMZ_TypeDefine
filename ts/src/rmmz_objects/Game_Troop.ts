@@ -205,12 +205,12 @@ class Game_Troop extends Game_Unit {
         return $gameParty.hasGoldDouble() ? 2 : 1;
     }
 
-    makeDropItems() {
+    makeDropItems(): ItemObject[] {
         const members = this.deadMembers();
-        return members.reduce((r, enemy) => r.concat(enemy.makeDropItems()), []);
+        return members.reduce((r: ItemObject[], enemy) => r.concat(enemy.makeDropItems()), []);
     }
 
-    isTpbTurnEnd() {
+    isTpbTurnEnd(): boolean {
         const members = this.members();
         const turnMax = Math.max(...members.map(member => member.turnCount()));
         return turnMax > this._turnCount;

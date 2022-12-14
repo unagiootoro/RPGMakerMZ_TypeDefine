@@ -373,7 +373,7 @@ abstract class Game_Battler extends Game_BattlerBase {
         }
     }
 
-    isStateAddable(stateId: string | number) {
+    isStateAddable(stateId: number) {
         return (
             this.isAlive() &&
             $dataStates[stateId] &&
@@ -382,7 +382,7 @@ abstract class Game_Battler extends Game_BattlerBase {
         );
     }
 
-    isStateRestrict(stateId: string | number) {
+    isStateRestrict(stateId: number) {
         return $dataStates[stateId].removeByRestriction && this.isRestricted();
     }
 

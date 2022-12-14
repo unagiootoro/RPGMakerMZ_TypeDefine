@@ -9,15 +9,15 @@ var $dataSkills: RMMZData.Item[];
 var $dataItems: RMMZData.Item[];
 var $dataWeapons: RMMZData.Weapon[];
 var $dataArmors: RMMZData.Armor[];
-var $dataEnemies: any = null;
-var $dataTroops: any = null;
-var $dataStates: any = null;
-var $dataAnimations: any = null;
-var $dataTilesets: any = null;
-var $dataCommonEvents: any = null;
-var $dataSystem: any = null;
-var $dataMapInfos: any = null;
-var $dataMap: any = null;
+var $dataEnemies: RMMZData.Enemy[];
+var $dataTroops: RMMZData.Troop[];
+var $dataStates: RMMZData.State[];
+var $dataAnimations: RMMZData.Animation[];
+var $dataTilesets: RMMZData.Tileset[];
+var $dataCommonEvents: RMMZData.CommonEvent[];
+var $dataSystem: RMMZData.System;
+var $dataMapInfos: RMMZData.MapInfo;
+var $dataMap: RMMZData.Map;
 var $gameTemp: Game_Temp;
 var $gameSystem: Game_System;
 var $gameScreen: Game_Screen;
@@ -31,7 +31,7 @@ var $gameParty: Game_Party;
 var $gameTroop: Game_Troop;
 var $gameMap: Game_Map;
 var $gamePlayer: Game_Player;
-var $testEvent: Game_Event | null;
+var $testEvent: RMMZData.EventCommand[] | null;
 
 class DataManager {
     constructor() {
@@ -144,7 +144,7 @@ class DataManager {
     }
 
     static makeEmptyMap() {
-        $dataMap = {};
+        ($dataMap as any) = {};
         $dataMap.data = [];
         $dataMap.events = [];
         $dataMap.width = 100;

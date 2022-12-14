@@ -23,7 +23,7 @@ class Game_Event extends Game_Character {
         super.initialize.call(this);
         this._mapId = mapId as number;
         this._eventId = eventId as number;
-        this.locate(this.event().x, this.event().y);
+        this.locate(this.event()!.x, this.event()!.y);
         this.refresh();
     }
 
@@ -44,12 +44,12 @@ class Game_Event extends Game_Character {
         return this._eventId;
     }
 
-    event() {
+    event(): RMMZData.Event | null {
         return $dataMap.events[this._eventId];
     }
 
     page() {
-        return this.event().pages[this._pageIndex];
+        return this.event()!.pages[this._pageIndex];
     }
 
     list() {
@@ -205,7 +205,7 @@ class Game_Event extends Game_Character {
     }
 
     findProperPageIndex() {
-        const pages = this.event().pages;
+        const pages = this.event()!.pages;
         for (let i = pages.length - 1; i >= 0; i--) {
             const page = pages[i];
             if (this.meetsConditions(page)) {

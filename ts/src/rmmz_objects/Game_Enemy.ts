@@ -81,11 +81,11 @@ class Game_Enemy extends Game_Battler {
         return this.enemy().gold;
     }
 
-    makeDropItems() {
+    makeDropItems(): ItemObject[] {
         const rate = this.dropItemRate();
-        return this.enemy().dropItems.reduce((r: any[], di: any) => {
+        return this.enemy().dropItems.reduce((r: ItemObject[], di: any) => {
             if (di.kind > 0 && Math.random() * di.denominator < rate) {
-                return r.concat(this.itemObject(di.kind, di.dataId));
+                return r.concat(this.itemObject(di.kind, di.dataId)!);
             } else {
                 return r;
             }
