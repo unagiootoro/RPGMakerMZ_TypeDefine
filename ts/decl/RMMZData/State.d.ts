@@ -24,5 +24,6 @@ declare namespace RMMZData {
         stepsToRemove: number;
         traits: Trait[];
         messageType: number;
+        meta?: any;
     }
 }
