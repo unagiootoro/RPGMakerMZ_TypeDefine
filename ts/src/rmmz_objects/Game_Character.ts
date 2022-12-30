@@ -52,17 +52,17 @@ class Game_Character extends Game_CharacterBase {
     static ROUTE_SCRIPT = 45;
 
     protected _moveRouteForcing!: boolean;
-    protected _moveRoute!: any;
+    protected _moveRoute!: RMMZData.MoveRoute | null;
     protected _moveRouteIndex!: number;
     protected _originalMoveRoute!: RMMZData.MoveRoute | null;
     protected _originalMoveRouteIndex!: number;
     protected _waitCount!: number;
 
-    initialize() {
+    initialize(...args: any[]): void {
         super.initialize.call(this);
     }
 
-    initMembers() {
+    initMembers(): void {
         Game_CharacterBase.prototype.initMembers.call(this);
         this._moveRouteForcing = false;
         this._moveRoute = null;
@@ -72,18 +72,18 @@ class Game_Character extends Game_CharacterBase {
         this._waitCount = 0;
     }
 
-    memorizeMoveRoute() {
+    memorizeMoveRoute(): void {
         this._originalMoveRoute = this._moveRoute;
         this._originalMoveRouteIndex = this._moveRouteIndex;
     }
 
-    restoreMoveRoute() {
+    restoreMoveRoute(): void {
         this._moveRoute = this._originalMoveRoute;
         this._moveRouteIndex = this._originalMoveRouteIndex;
         this._originalMoveRoute = null;
     }
 
-    isMoveRouteForcing() {
+    isMoveRouteForcing(): boolean {
         return this._moveRouteForcing;
     }
 
@@ -107,19 +107,19 @@ class Game_Character extends Game_CharacterBase {
         this._waitCount = 0;
     }
 
-    updateStop() {
+    updateStop(): void {
         Game_CharacterBase.prototype.updateStop.call(this);
         if (this._moveRouteForcing) {
             this.updateRoutineMove();
         }
     }
 
-    updateRoutineMove() {
+    updateRoutineMove(): void {
         if (this._waitCount > 0) {
             this._waitCount--;
         } else {
             this.setMovementSuccess(true);
-            const command = this._moveRoute.list[this._moveRouteIndex];
+            const command = this._moveRoute!.list[this._moveRouteIndex];
             if (command) {
                 this.processMoveCommand(command);
                 this.advanceMoveRouteIndex();
@@ -280,7 +280,7 @@ class Game_Character extends Game_CharacterBase {
         return $gameMap.deltaY(this.y, y);
     }
 
-    moveRandom() {
+    moveRandom(): void {
         const d = 2 + Math.randomInt(4) * 2;
         if (this.canPass(this.x, this.y, d)) {
             this.moveStraight(d);
@@ -339,35 +339,35 @@ class Game_Character extends Game_CharacterBase {
         }
     }
 
-    turnTowardPlayer() {
+    turnTowardPlayer(): void {
         this.turnTowardCharacter($gamePlayer);
     }
 
-    turnAwayFromPlayer() {
+    turnAwayFromPlayer(): void {
         this.turnAwayFromCharacter($gamePlayer);
     }
 
-    moveTowardPlayer() {
+    moveTowardPlayer(): void {
         this.moveTowardCharacter($gamePlayer);
     }
 
-    moveAwayFromPlayer() {
+    moveAwayFromPlayer(): void {
         this.moveAwayFromCharacter($gamePlayer);
     }
 
-    moveForward() {
+    moveForward(): void {
         this.moveStraight(this.direction());
     }
 
-    moveBackward() {
+    moveBackward(): void {
         const lastDirectionFix = this.isDirectionFixed();
         this.setDirectionFix(true);
         this.moveStraight(this.reverseDir(this.direction()));
         this.setDirectionFix(lastDirectionFix);
     }
 
-    processRouteEnd() {
-        if (this._moveRoute.repeat) {
+    processRouteEnd(): void {
+        if (this._moveRoute!.repeat) {
             this._moveRouteIndex = -1;
         } else if (this._moveRouteForcing) {
             this._moveRouteForcing = false;
@@ -376,7 +376,7 @@ class Game_Character extends Game_CharacterBase {
         }
     }
 
-    advanceMoveRouteIndex() {
+    advanceMoveRouteIndex(): void {
         const moveRoute = this._moveRoute;
         if (moveRoute && (this.isMovementSucceeded() || moveRoute.skippable)) {
             let numCommands = moveRoute.list.length - 1;
@@ -387,7 +387,7 @@ class Game_Character extends Game_CharacterBase {
         }
     }
 
-    turnRight90() {
+    turnRight90(): void {
         switch (this.direction()) {
             case 2:
                 this.setDirection(4);
@@ -404,7 +404,7 @@ class Game_Character extends Game_CharacterBase {
         }
     }
 
-    turnLeft90() {
+    turnLeft90(): void {
         switch (this.direction()) {
             case 2:
                 this.setDirection(6);
@@ -421,11 +421,11 @@ class Game_Character extends Game_CharacterBase {
         }
     }
 
-    turn180() {
+    turn180(): void {
         this.setDirection(this.reverseDir(this.direction()));
     }
 
-    turnRightOrLeft90() {
+    turnRightOrLeft90(): void {
         switch (Math.randomInt(2)) {
             case 0:
                 this.turnRight90();
@@ -436,7 +436,7 @@ class Game_Character extends Game_CharacterBase {
         }
     }
 
-    turnRandom() {
+    turnRandom(): void {
         this.setDirection(2 + Math.randomInt(4) * 2);
     }
 
@@ -559,7 +559,7 @@ class Game_Character extends Game_CharacterBase {
         return 0;
     }
 
-    searchLimit() {
+    searchLimit(): number {
         return 12;
     }
 }

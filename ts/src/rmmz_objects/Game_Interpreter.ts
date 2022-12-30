@@ -249,7 +249,7 @@ class Game_Interpreter {
         }
     }
 
-    iterateActorId(param: number, callback: (arg0: any) => void) {
+    iterateActorId(param: number, callback: (actor: Game_Actor) => void) {
         if (param === 0) {
             $gameParty.members().forEach(callback);
         } else {
@@ -260,7 +260,7 @@ class Game_Interpreter {
         }
     }
 
-    iterateActorEx(param1: number, param2: any, callback: { (actor: any): void; (actor: any): void; (actor: any): void; (actor: any): void; (actor: any): void; (actor: any): void; (actor: any): void; (actor: any): void; (actor: any): void; }) {
+    iterateActorEx(param1: number, param2: any, callback: (actor: Game_Actor) => void) {
         if (param1 === 0) {
             this.iterateActorId(param2, callback);
         } else {
@@ -268,7 +268,7 @@ class Game_Interpreter {
         }
     }
 
-    iterateActorIndex(param: number, callback: (arg0: any) => void) {
+    iterateActorIndex(param: number, callback: (actor: Game_Actor) => void) {
         if (param < 0) {
             $gameParty.members().forEach(callback);
         } else {
@@ -279,7 +279,7 @@ class Game_Interpreter {
         }
     }
 
-    iterateEnemyIndex(param: number, callback: { (enemy: any): void; (enemy: any): void; (enemy: any): void; (enemy: any): void; (enemy: any): void; (enemy: any): void; (enemy: any): void; (enemy: any): void; (arg0: any): void; }) {
+    iterateEnemyIndex(param: number, callback: (enemy: Game_Enemy) => void) {
         if (param < 0) {
             $gameTroop.members().forEach(callback);
         } else {
@@ -290,7 +290,7 @@ class Game_Interpreter {
         }
     }
 
-    iterateBattler(param1: number, param2: any, callback: (battler: any) => void) {
+    iterateBattler(param1: number, param2: any, callback: (battler: Game_Battler) => void) {
         if ($gameParty.inBattle()) {
             if (param1 === 0) {
                 this.iterateEnemyIndex(param2, callback);
@@ -320,7 +320,7 @@ class Game_Interpreter {
         return operation === 0 ? value : -value;
     }
 
-    changeHp(target: { isAlive: () => any; hp: number; gainHp: (arg0: any) => void; isDead: () => any; performCollapse: () => void; }, value: number, allowDeath: any) {
+    changeHp(target: Game_Battler, value: number, allowDeath: any) {
         if (target.isAlive()) {
             if (!allowDeath && target.hp <= -value) {
                 value = 1 - target.hp;
@@ -1555,7 +1555,7 @@ class Game_Interpreter {
     // Change MP
     command312(params: any[]) {
         const value = this.operateValue(params[2], params[3], params[4]);
-        this.iterateActorEx(params[0], params[1], (actor: { gainMp: (arg0: any) => void; }) => {
+        this.iterateActorEx(params[0], params[1], (actor: Game_Actor) => {
             actor.gainMp(value);
         });
         return true;
@@ -1564,7 +1564,7 @@ class Game_Interpreter {
     // Change TP
     command326(params: any[]) {
         const value = this.operateValue(params[2], params[3], params[4]);
-        this.iterateActorEx(params[0], params[1], (actor: { gainTp: (arg0: any) => void; }) => {
+        this.iterateActorEx(params[0], params[1], (actor: Game_Actor) => {
             actor.gainTp(value);
         });
         return true;
@@ -1572,7 +1572,7 @@ class Game_Interpreter {
 
     // Change State
     command313(params: any[]) {
-        this.iterateActorEx(params[0], params[1], (actor: { isDead: () => any; addState: (arg0: any) => void; removeState: (arg0: any) => void; performCollapse: () => void; clearResult: () => void; }) => {
+        this.iterateActorEx(params[0], params[1], (actor: Game_Actor) => {
             const alreadyDead = actor.isDead();
             if (params[2] === 0) {
                 actor.addState(params[3]);
@@ -1598,7 +1598,7 @@ class Game_Interpreter {
     // Change EXP
     command315(params: any[]) {
         const value = this.operateValue(params[2], params[3], params[4]);
-        this.iterateActorEx(params[0], params[1], (actor: { changeExp: (arg0: any, arg1: any) => void; currentExp: () => any; }) => {
+        this.iterateActorEx(params[0], params[1], (actor: Game_Actor) => {
             actor.changeExp(actor.currentExp() + value, params[5]);
         });
         return true;
@@ -1607,7 +1607,7 @@ class Game_Interpreter {
     // Change Level
     command316(params: any[]) {
         const value = this.operateValue(params[2], params[3], params[4]);
-        this.iterateActorEx(params[0], params[1], (actor: { changeLevel: (arg0: any, arg1: any) => void; level: any; }) => {
+        this.iterateActorEx(params[0], params[1], (actor: Game_Actor) => {
             actor.changeLevel(actor.level + value, params[5]);
         });
         return true;
@@ -1616,7 +1616,7 @@ class Game_Interpreter {
     // Change Parameter
     command317(params: any[]) {
         const value = this.operateValue(params[3], params[4], params[5]);
-        this.iterateActorEx(params[0], params[1], (actor: { addParam: (arg0: any, arg1: any) => void; }) => {
+        this.iterateActorEx(params[0], params[1], (actor: Game_Actor) => {
             actor.addParam(params[2], value);
         });
         return true;
@@ -1624,7 +1624,7 @@ class Game_Interpreter {
 
     // Change Skill
     command318(params: any[]) {
-        this.iterateActorEx(params[0], params[1], (actor: { learnSkill: (arg0: any) => void; forgetSkill: (arg0: any) => void; }) => {
+        this.iterateActorEx(params[0], params[1], (actor: Game_Actor) => {
             if (params[2] === 0) {
                 actor.learnSkill(params[3]);
             } else {
@@ -1712,7 +1712,7 @@ class Game_Interpreter {
     // Change Enemy MP
     command332(params: any[]) {
         const value = this.operateValue(params[1], params[2], params[3]);
-        this.iterateEnemyIndex(params[0], (enemy: { gainMp: (arg0: any) => void; }) => {
+        this.iterateEnemyIndex(params[0], (enemy: Game_Enemy) => {
             enemy.gainMp(value);
         });
         return true;
@@ -1721,7 +1721,7 @@ class Game_Interpreter {
     // Change Enemy TP
     command342(params: any[]) {
         const value = this.operateValue(params[1], params[2], params[3]);
-        this.iterateEnemyIndex(params[0], (enemy: { gainTp: (arg0: any) => void; }) => {
+        this.iterateEnemyIndex(params[0], (enemy: Game_Enemy) => {
             enemy.gainTp(value);
         });
         return true;
@@ -1729,7 +1729,7 @@ class Game_Interpreter {
 
     // Change Enemy State
     command333(params: any[]) {
-        this.iterateEnemyIndex(params[0], (enemy: { isDead: () => any; addState: (arg0: any) => void; removeState: (arg0: any) => void; performCollapse: () => void; clearResult: () => void; }) => {
+        this.iterateEnemyIndex(params[0], (enemy: Game_Enemy) => {
             const alreadyDead = enemy.isDead();
             if (params[1] === 0) {
                 enemy.addState(params[2]);
@@ -1763,7 +1763,7 @@ class Game_Interpreter {
 
     // Enemy Transform
     command336(params: any[]) {
-        this.iterateEnemyIndex(params[0], (enemy: { transform: (arg0: any) => void; }) => {
+        this.iterateEnemyIndex(params[0], (enemy: Game_Enemy) => {
             enemy.transform(params[1]);
             $gameTroop.makeUniqueNames();
         });

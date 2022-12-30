@@ -36,19 +36,22 @@ class Game_CharacterBase {
     protected _jumpPeak!: number;
     protected _movementSuccess!: boolean;
 
+    constructor();
+
     constructor(...args: any) {
-        // @ts-ignore
-        this.initialize(...args);
+        this.initialize(...args as []);
     }
 
-    get x() { return this._x; }
-    get y() { return this._y; }
+    get x(): number { return this._x; }
+    get y(): number { return this._y; }
 
-    initialize() {
+    initialize(): void;
+
+    initialize(...args: any[]): void {
         this.initMembers();
     }
 
-    initMembers() {
+    initMembers(): void {
         this._x = 0;
         this._y = 0;
         this._realX = 0;
@@ -90,7 +93,7 @@ class Game_CharacterBase {
         return this.pos(x, y) && !this.isThrough();
     }
 
-    moveSpeed() {
+    moveSpeed(): number {
         return this._moveSpeed;
     }
 
@@ -98,7 +101,7 @@ class Game_CharacterBase {
         this._moveSpeed = moveSpeed;
     }
 
-    moveFrequency() {
+    moveFrequency(): number {
         return this._moveFrequency;
     }
 
@@ -106,7 +109,7 @@ class Game_CharacterBase {
         this._moveFrequency = moveFrequency;
     }
 
-    opacity() {
+    opacity(): number {
         return this._opacity;
     }
 
@@ -114,7 +117,7 @@ class Game_CharacterBase {
         this._opacity = opacity;
     }
 
-    blendMode() {
+    blendMode(): number {
         return this._blendMode;
     }
 
@@ -122,7 +125,7 @@ class Game_CharacterBase {
         this._blendMode = blendMode;
     }
 
-    isNormalPriority() {
+    isNormalPriority(): boolean {
         return this._priorityType === 1;
     }
 
@@ -130,15 +133,15 @@ class Game_CharacterBase {
         this._priorityType = priorityType;
     }
 
-    isMoving() {
+    isMoving(): boolean {
         return this._realX !== this._x || this._realY !== this._y;
     }
 
-    isJumping() {
+    isJumping(): boolean {
         return this._jumpCount > 0;
     }
 
-    jumpHeight() {
+    jumpHeight(): number {
         return (
             (this._jumpPeak * this._jumpPeak -
                 Math.pow(Math.abs(this._jumpCount - this._jumpPeak), 2)) /
@@ -146,7 +149,7 @@ class Game_CharacterBase {
         );
     }
 
-    isStopping() {
+    isStopping(): boolean {
         return !this.isMoving() && !this.isJumping();
     }
 
@@ -154,27 +157,27 @@ class Game_CharacterBase {
         return this._stopCount > threshold;
     }
 
-    resetStopCount() {
+    resetStopCount(): void {
         this._stopCount = 0;
     }
 
-    realMoveSpeed() {
+    realMoveSpeed(): number {
         return this._moveSpeed + (this.isDashing() ? 1 : 0);
     }
 
-    distancePerFrame() {
+    distancePerFrame(): number {
         return Math.pow(2, this.realMoveSpeed()) / 256;
     }
 
-    isDashing() {
+    isDashing(): boolean {
         return false;
     }
 
-    isDebugThrough() {
+    isDebugThrough(): boolean {
         return false;
     }
 
-    straighten() {
+    straighten(): void {
         if (this.hasWalkAnime() || this.hasStepAnime()) {
             this._pattern = 1;
         }
@@ -185,7 +188,7 @@ class Game_CharacterBase {
         return 10 - d;
     }
 
-    canPass(x: number, y: number, d: number) {
+    canPass(x: number, y: number, d: number): boolean {
         const x2 = $gameMap.roundXWithDirection(x, d);
         const y2 = $gameMap.roundYWithDirection(y, d);
         if (!$gameMap.isValid(x2, y2)) {
@@ -203,7 +206,7 @@ class Game_CharacterBase {
         return true;
     }
 
-    canPassDiagonally(x: number, y: number, horz: any, vert: any) {
+    canPassDiagonally(x: number, y: number, horz: number, vert: number): boolean {
         const x2 = $gameMap.roundXWithDirection(x, horz);
         const y2 = $gameMap.roundYWithDirection(y, vert);
         if (this.canPass(x, y, vert) && this.canPass(x, y2, horz)) {
@@ -215,23 +218,23 @@ class Game_CharacterBase {
         return false;
     }
 
-    isMapPassable(x: any, y: any, d: any) {
+    isMapPassable(x: number, y: number, d: number): boolean {
         const x2 = $gameMap.roundXWithDirection(x, d);
         const y2 = $gameMap.roundYWithDirection(y, d);
         const d2 = this.reverseDir(d);
         return $gameMap.isPassable(x, y, d) && $gameMap.isPassable(x2, y2, d2);
     }
 
-    isCollidedWithCharacters(x: any, y: any) {
+    isCollidedWithCharacters(x: number, y: number): boolean {
         return this.isCollidedWithEvents(x, y) || this.isCollidedWithVehicles(x, y);
     }
 
-    isCollidedWithEvents(x: any, y: any) {
+    isCollidedWithEvents(x: number, y: number): boolean {
         const events = $gameMap.eventsXyNt(x, y);
         return events.some((event: { isNormalPriority: () => any; }) => event.isNormalPriority());
     }
 
-    isCollidedWithVehicles(x: any, y: any) {
+    isCollidedWithVehicles(x: number, y: number): boolean {
         return $gameMap.boat().posNt(x, y) || $gameMap.ship().posNt(x, y);
     }
 
@@ -256,7 +259,7 @@ class Game_CharacterBase {
         this.refreshBushDepth();
     }
 
-    direction() {
+    direction(): number {
         return this._direction;
     }
 
@@ -267,43 +270,43 @@ class Game_CharacterBase {
         this.resetStopCount();
     }
 
-    isTile() {
+    isTile(): boolean {
         return this._tileId > 0 && this._priorityType === 0;
     }
 
-    isObjectCharacter() {
+    isObjectCharacter(): boolean {
         return this._isObjectCharacter;
     }
 
-    shiftY() {
+    shiftY(): number {
         return this.isObjectCharacter() ? 0 : 6;
     }
 
-    scrolledX() {
+    scrolledX(): number {
         return $gameMap.adjustX(this._realX);
     }
 
-    scrolledY() {
+    scrolledY(): number {
         return $gameMap.adjustY(this._realY);
     }
 
-    screenX() {
+    screenX(): number {
         const tw = $gameMap.tileWidth();
         return Math.floor(this.scrolledX() * tw + tw / 2);
     }
 
-    screenY() {
+    screenY(): number {
         const th = $gameMap.tileHeight();
         return Math.floor(
             this.scrolledY() * th + th - this.shiftY() - this.jumpHeight()
         );
     }
 
-    screenZ() {
+    screenZ(): number {
         return this._priorityType * 2 + 1;
     }
 
-    isNearTheScreen() {
+    isNearTheScreen(): boolean {
         const gw = Graphics.width;
         const gh = Graphics.height;
         const tw = $gameMap.tileWidth();
@@ -326,11 +329,11 @@ class Game_CharacterBase {
         this.updateAnimation();
     }
 
-    updateStop() {
+    updateStop(): void {
         this._stopCount++;
     }
 
-    updateJump() {
+    updateJump(): void {
         this._jumpCount--;
         this._realX =
             (this._realX * this._jumpCount + this._x) / (this._jumpCount + 1.0);
@@ -343,7 +346,7 @@ class Game_CharacterBase {
         }
     }
 
-    updateMove() {
+    updateMove(): void {
         if (this._x < this._realX) {
             this._realX = Math.max(this._realX - this.distancePerFrame(), this._x);
         }
@@ -361,7 +364,7 @@ class Game_CharacterBase {
         }
     }
 
-    updateAnimation() {
+    updateAnimation(): void {
         this.updateAnimationCount();
         if (this._animationCount >= this.animationWait()) {
             this.updatePattern();
@@ -369,11 +372,11 @@ class Game_CharacterBase {
         }
     }
 
-    animationWait() {
+    animationWait(): number {
         return (9 - this.realMoveSpeed()) * 3;
     }
 
-    updateAnimationCount() {
+    updateAnimationCount(): void {
         if (this.isMoving() && this.hasWalkAnime()) {
             this._animationCount += 1.5;
         } else if (this.hasStepAnime() || !this.isOriginalPattern()) {
@@ -381,7 +384,7 @@ class Game_CharacterBase {
         }
     }
 
-    updatePattern() {
+    updatePattern(): void {
         if (!this.hasStepAnime() && this._stopCount > 0) {
             this.resetPattern();
         } else {
@@ -389,11 +392,11 @@ class Game_CharacterBase {
         }
     }
 
-    maxPattern() {
+    maxPattern(): number {
         return 4;
     }
 
-    pattern() {
+    pattern(): number {
         return this._pattern < 3 ? this._pattern : 1;
     }
 
@@ -401,15 +404,15 @@ class Game_CharacterBase {
         this._pattern = pattern;
     }
 
-    isOriginalPattern() {
+    isOriginalPattern(): boolean {
         return this.pattern() === 1;
     }
 
-    resetPattern() {
+    resetPattern(): void {
         this.setPattern(1);
     }
 
-    refreshBushDepth() {
+    refreshBushDepth(): void {
         if (
             this.isNormalPriority() &&
             !this.isObjectCharacter() &&
@@ -424,23 +427,23 @@ class Game_CharacterBase {
         }
     }
 
-    isOnLadder() {
+    isOnLadder(): boolean {
         return $gameMap.isLadder(this._x, this._y);
     }
 
-    isOnBush() {
+    isOnBush(): boolean {
         return $gameMap.isBush(this._x, this._y);
     }
 
-    terrainTag() {
+    terrainTag(): number {
         return $gameMap.terrainTag(this._x, this._y);
     }
 
-    regionId() {
+    regionId(): number {
         return $gameMap.regionId(this._x, this._y);
     }
 
-    increaseSteps() {
+    increaseSteps(): void {
         if (this.isOnLadder()) {
             this.setDirection(8);
         }
@@ -448,15 +451,15 @@ class Game_CharacterBase {
         this.refreshBushDepth();
     }
 
-    tileId() {
+    tileId(): number {
         return this._tileId;
     }
 
-    characterName() {
+    characterName(): string {
         return this._characterName;
     }
 
-    characterIndex() {
+    characterIndex(): number {
         return this._characterIndex;
     }
 
@@ -496,7 +499,7 @@ class Game_CharacterBase {
         this._movementSuccess = success;
     }
 
-    moveStraight(d: number) {
+    moveStraight(d: number): void {
         this.setMovementSuccess(this.canPass(this._x, this._y, d));
         if (this.isMovementSucceeded()) {
             this.setDirection(d);
@@ -511,7 +514,7 @@ class Game_CharacterBase {
         }
     }
 
-    moveDiagonally(horz: number, vert: number) {
+    moveDiagonally(horz: number, vert: number): void {
         this.setMovementSuccess(
             this.canPassDiagonally(this._x, this._y, horz, vert)
         );
@@ -530,7 +533,7 @@ class Game_CharacterBase {
         }
     }
 
-    jump(xPlus: number, yPlus: number) {
+    jump(xPlus: number, yPlus: number): void {
         if (Math.abs(xPlus) > Math.abs(yPlus)) {
             if (xPlus !== 0) {
                 this.setDirection(xPlus < 0 ? 4 : 6);
@@ -549,43 +552,43 @@ class Game_CharacterBase {
         this.straighten();
     }
 
-    hasWalkAnime() {
+    hasWalkAnime(): boolean {
         return this._walkAnime;
     }
 
-    setWalkAnime(walkAnime: boolean) {
+    setWalkAnime(walkAnime: boolean): void {
         this._walkAnime = walkAnime;
     }
 
-    hasStepAnime() {
+    hasStepAnime(): boolean {
         return this._stepAnime;
     }
 
-    setStepAnime(stepAnime: boolean) {
+    setStepAnime(stepAnime: boolean): void {
         this._stepAnime = stepAnime;
     }
 
-    isDirectionFixed() {
+    isDirectionFixed(): boolean {
         return this._directionFix;
     }
 
-    setDirectionFix(directionFix: boolean) {
+    setDirectionFix(directionFix: boolean): void {
         this._directionFix = directionFix;
     }
 
-    isThrough() {
+    isThrough(): boolean {
         return this._through;
     }
 
-    setThrough(through: boolean) {
+    setThrough(through: boolean): void {
         this._through = through;
     }
 
-    isTransparent() {
+    isTransparent(): boolean {
         return this._transparent;
     }
 
-    bushDepth() {
+    bushDepth(): number {
         return this._bushDepth;
     }
 
@@ -593,27 +596,27 @@ class Game_CharacterBase {
         this._transparent = transparent;
     }
 
-    startAnimation() {
+    startAnimation(): void {
         this._animationPlaying = true;
     }
 
-    startBalloon() {
+    startBalloon(): void {
         this._balloonPlaying = true;
     }
 
-    isAnimationPlaying() {
+    isAnimationPlaying(): boolean {
         return this._animationPlaying;
     }
 
-    isBalloonPlaying() {
+    isBalloonPlaying(): boolean {
         return this._balloonPlaying;
     }
 
-    endAnimation() {
+    endAnimation(): void {
         this._animationPlaying = false;
     }
 
-    endBalloon() {
+    endBalloon(): void {
         this._balloonPlaying = false;
     }
 }

@@ -10,10 +10,16 @@ class Game_Vehicle extends Game_Character {
     protected _driving!: boolean;
     protected _bgm!: any;
 
-    // TODO: override
-    initialize(type?: string) {
+    constructor(type: string);
+
+    constructor(...args: any[]) {
+        super(...args as []);
+    }
+
+    initialize(...args: any[]) {
+        const [type] = args;
         Game_Character.prototype.initialize.call(this);
-        this._type = type as string; // TODO: override
+        this._type = type;
         this.resetDirection();
         this.initMoveSpeed();
         this.loadSystemSettings();

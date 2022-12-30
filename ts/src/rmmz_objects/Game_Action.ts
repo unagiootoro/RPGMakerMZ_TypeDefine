@@ -567,7 +567,7 @@ class Game_Action {
         return value;
     }
 
-    evalDamageFormula(target: Game_Battler) {
+    evalDamageFormula(target: Game_Battler): number {
         try {
             const item = this.item();
             const a = this.subject(); // eslint-disable-line no-unused-vars

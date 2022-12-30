@@ -5,12 +5,18 @@
 // other than the front character, displayed in the party.
 
 class Game_Follower extends Game_Character {
-    _memberIndex!: number;
+    protected _memberIndex!: number;
 
-    // TODO: override
-    initialize(memberIndex?: number) {
+    constructor(memberIndex: number);
+
+    constructor(...args: any[]) {
+        super(...args as []);
+    }
+
+    initialize(...args: any[]): void {
         Game_Character.prototype.initialize.call(this);
-        this._memberIndex = memberIndex as number; // TODO: override
+        const [memberIndex] = args;
+        this._memberIndex = memberIndex;
         this.setTransparent($dataSystem.optTransparent);
         this.setThrough(true);
     };

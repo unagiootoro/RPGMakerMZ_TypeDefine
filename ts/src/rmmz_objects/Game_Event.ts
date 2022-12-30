@@ -5,29 +5,35 @@
 // switching and running parallel process events.
 
 class Game_Event extends Game_Character {
-    _mapId!: number;
-    _eventId!: number;
-    _moveType!: number;
-    _trigger!: number | null;
-    _starting!: boolean;
-    _erased!: boolean;
-    _pageIndex!: number;
-    _originalPattern!: number;
-    _originalDirection!: number;
-    _prelockDirection!: number;
-    _locked!: boolean;
-    _interpreter!: Game_Interpreter | null;
+    protected _mapId!: number;
+    protected _eventId!: number;
+    protected _moveType!: number;
+    protected _trigger!: number | null;
+    protected _starting!: boolean;
+    protected _erased!: boolean;
+    protected _pageIndex!: number;
+    protected _originalPattern!: number;
+    protected _originalDirection!: number;
+    protected _prelockDirection!: number;
+    protected _locked!: boolean;
+    protected _interpreter!: Game_Interpreter | null;
 
-    // TODO: override
-    initialize(mapId?: number, eventId?: number) {
+    constructor(mapId: number, eventId: number);
+
+    constructor(...args: any[]) {
+        super(...args as []);
+    }
+
+    initialize(...args: any[]): void {
+        const [mapId, eventId] = args;
         super.initialize.call(this);
-        this._mapId = mapId as number;
-        this._eventId = eventId as number;
+        this._mapId = mapId;
+        this._eventId = eventId;
         this.locate(this.event()!.x, this.event()!.y);
         this.refresh();
     }
 
-    initMembers() {
+    initMembers(): void {
         Game_Character.prototype.initMembers.call(this);
         this._moveType = 0;
         this._trigger = 0;
@@ -40,7 +46,7 @@ class Game_Event extends Game_Character {
         this._locked = false;
     }
 
-    eventId() {
+    eventId(): number {
         return this._eventId;
     }
 
@@ -48,11 +54,11 @@ class Game_Event extends Game_Character {
         return $dataMap.events[this._eventId];
     }
 
-    page() {
+    page(): RMMZData.EventPage {
         return this.event()!.pages[this._pageIndex];
     }
 
-    list() {
+    list(): RMMZData.EventCommand[] {
         return this.page().list;
     }
 
@@ -72,7 +78,7 @@ class Game_Event extends Game_Character {
         return this.isNormalPriority() && $gamePlayer.isCollided(x, y);
     }
 
-    lock() {
+    lock(): void {
         if (!this._locked) {
             this._prelockDirection = this.direction();
             this.turnTowardPlayer();
@@ -80,14 +86,14 @@ class Game_Event extends Game_Character {
         }
     }
 
-    unlock() {
+    unlock(): void {
         if (this._locked) {
             this._locked = false;
             this.setDirection(this._prelockDirection);
         }
     }
 
-    updateStop() {
+    updateStop(): void {
         if (this._locked) {
             this.resetStopCount();
         }
@@ -97,7 +103,7 @@ class Game_Event extends Game_Character {
         }
     }
 
-    updateSelfMovement() {
+    updateSelfMovement(): void {
         if (
             !this._locked &&
             this.isNearTheScreen() &&
@@ -117,11 +123,11 @@ class Game_Event extends Game_Character {
         }
     }
 
-    stopCountThreshold() {
+    stopCountThreshold(): number {
         return 30 * (5 - this.moveFrequency());
     }
 
-    moveTypeRandom() {
+    moveTypeRandom(): void {
         switch (Math.randomInt(6)) {
             case 0:
             case 1:
@@ -138,7 +144,7 @@ class Game_Event extends Game_Character {
         }
     }
 
-    moveTypeTowardPlayer() {
+    moveTypeTowardPlayer(): void {
         if (this.isNearThePlayer()) {
             switch (Math.randomInt(6)) {
                 case 0:
@@ -159,21 +165,21 @@ class Game_Event extends Game_Character {
         }
     }
 
-    isNearThePlayer() {
+    isNearThePlayer(): boolean {
         const sx = Math.abs(this.deltaXFrom($gamePlayer.x));
         const sy = Math.abs(this.deltaYFrom($gamePlayer.y));
         return sx + sy < 20;
     }
 
-    moveTypeCustom() {
+    moveTypeCustom(): void {
         this.updateRoutineMove();
     }
 
-    isStarting() {
+    isStarting(): boolean {
         return this._starting;
     }
 
-    clearStartingFlag() {
+    clearStartingFlag(): void {
         this._starting = false;
     }
 
@@ -181,7 +187,7 @@ class Game_Event extends Game_Character {
         return triggers.includes(this._trigger);
     }
 
-    start() {
+    start(): void {
         const list = this.list();
         if (list && list.length > 1) {
             this._starting = true;
@@ -191,12 +197,12 @@ class Game_Event extends Game_Character {
         }
     }
 
-    erase() {
+    erase(): void {
         this._erased = true;
         this.refresh();
     }
 
-    refresh() {
+    refresh(): void {
         const newPageIndex = this._erased ? -1 : this.findProperPageIndex();
         if (this._pageIndex !== newPageIndex) {
             this._pageIndex = newPageIndex;
@@ -204,7 +210,7 @@ class Game_Event extends Game_Character {
         }
     }
 
-    findProperPageIndex() {
+    findProperPageIndex(): number {
         const pages = this.event()!.pages;
         for (let i = pages.length - 1; i >= 0; i--) {
             const page = pages[i];
@@ -215,7 +221,7 @@ class Game_Event extends Game_Character {
         return -1;
     }
 
-    meetsConditions(page: { conditions: any; }) {
+    meetsConditions(page: RMMZData.EventPage) {
         const c = page.conditions;
         if (c.switch1Valid) {
             if (!$gameSwitches.value(c.switch1Id)) {
@@ -253,7 +259,7 @@ class Game_Event extends Game_Character {
         return true;
     }
 
-    setupPage() {
+    setupPage(): void {
         if (this._pageIndex >= 0) {
             this.setupPageSettings();
         } else {
@@ -264,7 +270,7 @@ class Game_Event extends Game_Character {
         this.checkEventTriggerAuto();
     }
 
-    clearPageSettings() {
+    clearPageSettings(): void {
         this.setImage("", 0);
         this._moveType = 0;
         this._trigger = null;
@@ -272,7 +278,7 @@ class Game_Event extends Game_Character {
         this.setThrough(true);
     }
 
-    setupPageSettings() {
+    setupPageSettings(): void {
         const page = this.page();
         const image = page.image;
         if (image.tileId > 0) {
@@ -307,11 +313,11 @@ class Game_Event extends Game_Character {
         }
     }
 
-    isOriginalPattern() {
+    isOriginalPattern(): boolean {
         return this.pattern() === this._originalPattern;
     }
 
-    resetPattern() {
+    resetPattern(): void {
         this.setPattern(this._originalPattern);
     }
 
@@ -325,19 +331,19 @@ class Game_Event extends Game_Character {
         }
     }
 
-    checkEventTriggerAuto() {
+    checkEventTriggerAuto(): void {
         if (this._trigger === 3) {
             this.start();
         }
     }
 
-    update() {
+    update(): void {
         Game_Character.prototype.update.call(this);
         this.checkEventTriggerAuto();
         this.updateParallel();
     }
 
-    updateParallel() {
+    updateParallel(): void {
         if (this._interpreter) {
             if (!this._interpreter.isRunning()) {
                 this._interpreter.setup(this.list(), this._eventId);
@@ -351,7 +357,7 @@ class Game_Event extends Game_Character {
         this._prelockDirection = 0;
     }
 
-    forceMoveRoute(moveRoute: any) {
+    forceMoveRoute(moveRoute: RMMZData.MoveRoute) {
         Game_Character.prototype.forceMoveRoute.call(this, moveRoute);
         this._prelockDirection = 0;
     }

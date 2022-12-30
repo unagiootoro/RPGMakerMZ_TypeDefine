@@ -19,7 +19,7 @@ class Game_Player extends Game_Character {
     protected _followers!: Game_Followers;
     protected _encounterCount!: number;
 
-    initialize() {
+    initialize(...args: any[]): void {
         super.initialize();
         this.setTransparent($dataSystem.optTransparent);
     }

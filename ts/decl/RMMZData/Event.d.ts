@@ -6,5 +6,6 @@ declare namespace RMMZData {
         pages: EventPage[];
         x: number;
         y: number;
+        meta?: any;
     }
 }
