@@ -19,12 +19,17 @@ class Game_Interpreter {
     protected _characterId!: number;
     protected _childInterpreter!: Game_Interpreter | null;
 
-    constructor(depth?: number) {
-        // @ts-ignore
-        this.initialize(...arguments);
+    constructor(depth?: number);
+
+    constructor(...args: any[]) {
+        this.initialize(...args);
     }
 
-    initialize(depth?: number) {
+    initialize(depth?: number): void;
+
+    initialize(...args: any[]) {
+        let depth;
+        if (args.length > 0) [depth] = args;
         this._depth = depth || 0;
         this.checkOverflow();
         this.clear();

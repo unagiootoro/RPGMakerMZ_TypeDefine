@@ -30,12 +30,11 @@ class Game_Map {
     protected _needsRefresh!: boolean;
     protected _tileEvents: any;
 
-    constructor() {
-        // @ts-ignore
-        this.initialize(...arguments);
+    constructor(...args: any[]) {
+        this.initialize(...args);
     }
 
-    initialize() {
+    initialize(...args: any[]) {
         this._interpreter = new Game_Interpreter();
         this._mapId = 0;
         this._tilesetId = 0;

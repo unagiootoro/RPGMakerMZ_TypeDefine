@@ -38,12 +38,16 @@ class WebAudio {
     protected _isPlaying!: boolean;
     protected _decoder!: any;
 
-    constructor(url: string) {
-        // @ts-ignore
-        this.initialize(...arguments);
+    constructor(url: string);
+
+    constructor(...args: any[]) {
+        this.initialize(...args as [string]);
     }
 
-    initialize(url: string) {
+    initialize(url: string): void;
+
+    initialize(...args: any[]) {
+        const [url] = args as [string];
         this.clear();
         this._url = url;
         this._startLoading();

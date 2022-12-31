@@ -17,7 +17,7 @@ class Game_System {
     protected _framesOnSave!: number;
     protected _bgmOnSave!: IAudioObject | null;
     protected _bgsOnSave!: IAudioObject | null;
-    protected _windowTone!: [number, number, number, number] | null;
+    protected _windowTone!: ToneType | null;
     protected _battleBgm!: IAudioObject | null;
     protected _victoryMe!: IAudioObject | null;
     protected _defeatMe!: IAudioObject | null;
@@ -154,11 +154,11 @@ class Game_System {
         this._savefileId = savefileId;
     }
 
-    windowTone(): [number, number, number, number] {
+    windowTone(): ToneType {
         return this._windowTone || $dataSystem.windowTone;
     }
 
-    setWindowTone(value: [number, number, number, number]) {
+    setWindowTone(value: ToneType) {
         this._windowTone = value;
     }
 

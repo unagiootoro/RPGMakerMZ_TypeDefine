@@ -8,12 +8,15 @@ class Game_Followers {
     _gathering!: boolean;
     _data!: Game_Follower[]
 
-    constructor() {
-        // @ts-ignore
-        this.initialize(...arguments);
+    constructor();
+
+    constructor(...args: any[]) {
+        this.initialize(...args as []);
     }
 
-    initialize() {
+    initialize(): void;
+
+    initialize(...args: any[]) {
         this._visible = $dataSystem.optFollowers;
         this._gathering = false;
         this._data = [];

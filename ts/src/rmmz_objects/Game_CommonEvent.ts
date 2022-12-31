@@ -6,14 +6,18 @@
 
 class Game_CommonEvent {
     protected _commonEventId!: number;
-    protected _interpreter!: any;
+    protected _interpreter!: Game_Interpreter | null;
 
-    constructor(commonEventId: number) {
-        // @ts-ignore
-        this.initialize(...arguments);
+    constructor(commonEventId: number);
+
+    constructor(...args: any[]) {
+        this.initialize(...args as [number]);
     }
 
-    initialize(commonEventId: number) {
+    initialize(commonEventId: number): void;
+
+    initialize(...args: any[]) {
+        const [commonEventId] = args as [number];
         this._commonEventId = commonEventId;
         this.refresh();
     }

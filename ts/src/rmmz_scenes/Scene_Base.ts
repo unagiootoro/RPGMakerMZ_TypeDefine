@@ -45,7 +45,6 @@ class Scene_Base extends Stage {
         this._active = true;
     }
 
-    // @ts-ignore
     update() {
         this.updateFade();
         this.updateColorFilter();
@@ -107,7 +106,7 @@ class Scene_Base extends Stage {
 
     updateColorFilter() {
         const c = this._fadeWhite ? 255 : 0;
-        const blendColor = [c, c, c, this._fadeOpacity];
+        const blendColor: ColorType = [c, c, c, this._fadeOpacity];
         this._colorFilter.setBlendColor(blendColor);
     }
 

@@ -6,10 +6,9 @@
  * @extends PIXI.Filter
  */
 class ColorFilter extends PIXI.Filter {
-    constructor() {
+    constructor(...args: any[]) {
         super();
-        // @ts-ignore
-        this.initialize(...arguments);
+        this.initialize(...args as []);
     }
 
     initialize() {
@@ -34,7 +33,7 @@ class ColorFilter extends PIXI.Filter {
      *
      * @param {array} tone - The color tone [r, g, b, gray].
      */
-    setColorTone(tone: any[]) {
+    setColorTone(tone: ColorType) {
         if (!(tone instanceof Array)) {
             throw new Error("Argument must be an array");
         }
@@ -46,7 +45,7 @@ class ColorFilter extends PIXI.Filter {
      *
      * @param {array} color - The blend color [r, g, b, a].
      */
-    setBlendColor(color: any[]) {
+    setBlendColor(color: ColorType) {
         if (!(color instanceof Array)) {
             throw new Error("Argument must be an array");
         }
@@ -58,7 +57,7 @@ class ColorFilter extends PIXI.Filter {
      *
      * @param {number} brightness - The brightness (0 to 255).
      */
-    setBrightness(brightness: any) {
+    setBrightness(brightness: number) {
         this.uniforms.brightness = Number(brightness);
     }
 

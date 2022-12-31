@@ -11,10 +11,9 @@ class ScreenSprite extends PIXI.Container {
     protected _green!: number;
     protected _blue!: number;
 
-    constructor() {
+    constructor(...args: any[]) {
         super();
-        // @ts-ignore
-        this.initialize(...arguments);
+        this.initialize(...args as []);
     }
 
     initialize() {

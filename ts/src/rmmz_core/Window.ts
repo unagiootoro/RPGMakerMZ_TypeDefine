@@ -170,7 +170,6 @@ class _Window extends PIXI.Container {
      * @type number
      * @name Window#width
      */
-    // @ts-ignore
     get width() {
         return this._width;
     }
@@ -187,7 +186,6 @@ class _Window extends PIXI.Container {
      * @type number
      * @name Window#height
      */
-    // @ts-ignore
     get height() {
         return this._height;
     }
@@ -341,7 +339,6 @@ class _Window extends PIXI.Container {
     /**
      * Updates the window for each frame.
      */
-    // @ts-ignore
     update() {
         if (this.active) {
             this._animationCount++;

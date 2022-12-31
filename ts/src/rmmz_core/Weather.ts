@@ -12,7 +12,7 @@ class Weather extends PIXI.Container {
     viewport!: Bitmap;
     protected _width!: number;
     protected _height!: number;
-    protected _sprites!: Sprite_Weather[];
+    protected _sprites!: IWeatherSprite[];
     protected _rainBitmap!: Bitmap;
     protected _stormBitmap!: Bitmap;
     protected _snowBitmap!: Bitmap;
@@ -119,7 +119,7 @@ class Weather extends PIXI.Container {
         this.removeChild(this._sprites.pop()!);
     }
 
-    _updateSprite(sprite: Sprite_Weather) {
+    _updateSprite(sprite: IWeatherSprite) {
         switch (this.type) {
             case "rain":
                 this._updateRainSprite(sprite);
@@ -136,7 +136,7 @@ class Weather extends PIXI.Container {
         }
     }
 
-    _updateRainSprite(sprite: Sprite_Weather) {
+    _updateRainSprite(sprite: IWeatherSprite) {
         sprite.bitmap = this._rainBitmap;
         sprite.rotation = Math.PI / 16;
         sprite.ax -= 6 * Math.sin(sprite.rotation);
@@ -144,7 +144,7 @@ class Weather extends PIXI.Container {
         sprite.opacity -= 6;
     }
 
-    _updateStormSprite(sprite: Sprite_Weather) {
+    _updateStormSprite(sprite: IWeatherSprite) {
         sprite.bitmap = this._stormBitmap;
         sprite.rotation = Math.PI / 8;
         sprite.ax -= 8 * Math.sin(sprite.rotation);
@@ -152,7 +152,7 @@ class Weather extends PIXI.Container {
         sprite.opacity -= 8;
     }
 
-    _updateSnowSprite(sprite: Sprite_Weather) {
+    _updateSnowSprite(sprite: IWeatherSprite) {
         sprite.bitmap = this._snowBitmap;
         sprite.rotation = Math.PI / 16;
         sprite.ax -= 3 * Math.sin(sprite.rotation);
@@ -160,14 +160,14 @@ class Weather extends PIXI.Container {
         sprite.opacity -= 3;
     }
 
-    _rebornSprite(sprite: Sprite_Weather) {
+    _rebornSprite(sprite: IWeatherSprite) {
         sprite.ax = Math.randomInt(Graphics.width + 100) - 100 + this.origin.x;
         sprite.ay = Math.randomInt(Graphics.height + 200) - 200 + this.origin.y;
         sprite.opacity = 160 + Math.randomInt(60);
     }
 }
 
-interface Sprite_Weather extends Sprite {
+interface IWeatherSprite extends Sprite {
     ax: number;
     ay: number;
 }

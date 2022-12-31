@@ -34,7 +34,7 @@ declare namespace RMMZData {
     }
 
     interface AnimationTiming {
-        flashColor: [number, number, number, number];
+        flashColor: ColorType;
         flashDuration: number;
         flashScope: number;
         frame: number;
@@ -49,7 +49,7 @@ declare namespace RMMZData {
     interface AnimationFlashTiming {
         frame: number;
         duration: number;
-        color: [number, number, number, number];
+        color: ColorType;
     }
 
     interface AnimationSoundTiming {

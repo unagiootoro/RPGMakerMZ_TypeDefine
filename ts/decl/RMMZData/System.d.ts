@@ -162,7 +162,7 @@ declare namespace RMMZData {
             volume: number;
         };
         weaponTypes: string[];
-        windowTone: [number, number, number, number];
+        windowTone: ToneType;
         tileSize: number;
         hasEncryptedImages?: any;
         hasEncryptedAudio?: any;

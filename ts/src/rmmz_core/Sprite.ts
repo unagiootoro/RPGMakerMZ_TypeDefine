@@ -12,8 +12,8 @@ class Sprite extends PIXI.Sprite {
     protected _bitmap!: any;
     protected _frame!: Rectangle;
     protected _hue!: number;
-    protected _blendColor!: number[];
-    protected _colorTone!: number[];
+    protected _blendColor!: ColorType;
+    protected _colorTone!: ToneType;
     protected _colorFilter!: ColorFilter | null;
     protected _blendMode!: PIXI.BLEND_MODES;
     protected _hidden!: boolean;
@@ -235,7 +235,7 @@ class Sprite extends PIXI.Sprite {
             throw new Error("Argument must be an array");
         }
         if (!this._blendColor.equals(color)) {
-            this._blendColor = color.clone();
+            this._blendColor = color.clone() as ColorType;
             this._updateColorFilter();
         }
     }
@@ -259,7 +259,7 @@ class Sprite extends PIXI.Sprite {
             throw new Error("Argument must be an array");
         }
         if (!this._colorTone.equals(tone)) {
-            this._colorTone = tone.clone();
+            this._colorTone = tone.clone() as ToneType;
             this._updateColorFilter();
         }
     }

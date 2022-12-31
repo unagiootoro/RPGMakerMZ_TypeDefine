@@ -233,5 +233,3 @@ class Game_Picture {
         }
     }
 }
-
-type ToneType = [number, number, number, number];
