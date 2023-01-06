@@ -11,6 +11,7 @@ declare namespace RMMZData {
             fontSize: number;
             mainFontFilename: string;
             windowOpacity: number;
+            screenScale: number;
         };
         airship: Vehicle;
         armorTypes: string[];

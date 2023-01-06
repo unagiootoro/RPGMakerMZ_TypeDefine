@@ -292,16 +292,15 @@ class Window_Base extends _Window {
         /* eslint no-control-regex: 0 */
         text = text.replace(/\\/g, "\x1b");
         text = text.replace(/\x1b\x1b/g, "\\");
-        text = text.replace(/\x1bV\[(\d+)\]/gi, (_: any, p1: string) =>
-            $gameVariables.value(parseInt(p1)) as any
-        );
-        text = text.replace(/\x1bV\[(\d+)\]/gi, (_: any, p1: string) =>
-            $gameVariables.value(parseInt(p1)) as any
-        );
-        text = text.replace(/\x1bN\[(\d+)\]/gi, (_: any, p1: string) =>
+        while (text.match(/\x1bV\[(\d+)\]/gi)) {
+            text = text.replace(/\x1bV\[(\d+)\]/gi, (_, p1) =>
+                $gameVariables.value(parseInt(p1)) as any
+            );
+        }
+        text = text.replace(/\x1bN\[(\d+)\]/gi, (_, p1) =>
             this.actorName(parseInt(p1))
         );
-        text = text.replace(/\x1bP\[(\d+)\]/gi, (_: any, p1: string) =>
+        text = text.replace(/\x1bP\[(\d+)\]/gi, (_, p1) =>
             this.partyMemberName(parseInt(p1))
         );
         text = text.replace(/\x1bG/gi, TextManager.currencyUnit);

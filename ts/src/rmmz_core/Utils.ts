@@ -29,7 +29,7 @@ class Utils {
      * @type string
      * @constant
      */
-    static RPGMAKER_VERSION = "1.5.0";
+    static RPGMAKER_VERSION = "1.6.0";
 
     /**
      * Checks whether the current RPG Maker version is greater than or equal to

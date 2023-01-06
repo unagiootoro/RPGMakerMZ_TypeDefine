@@ -402,7 +402,7 @@ class Graphics {
     }
 
     static _updateErrorPrinter() {
-        const width = 640 * this._realScale;
+        const width = this._width * 0.8 * this._realScale;
         const height = 100 * this._realScale;
         this._errorPrinter.style.width = width + "px";
         this._errorPrinter.style.height = height + "px";

@@ -92,6 +92,7 @@ class Scene_Boot extends Scene_Base {
         const screenWidth = $dataSystem.advanced.screenWidth;
         const screenHeight = $dataSystem.advanced.screenHeight;
         Graphics.resize(screenWidth, screenHeight);
+        Graphics.defaultScale = this.screenScale();
         this.adjustBoxSize();
         this.adjustWindow();
     }
@@ -106,10 +107,19 @@ class Scene_Boot extends Scene_Base {
 
     adjustWindow() {
         if (Utils.isNwjs()) {
-            const xDelta = Graphics.width - window.innerWidth;
-            const yDelta = Graphics.height - window.innerHeight;
+            const scale = this.screenScale();
+            const xDelta = Graphics.width * scale - window.innerWidth;
+            const yDelta = Graphics.height * scale - window.innerHeight;
             window.moveBy(-xDelta / 2, -yDelta / 2);
             window.resizeBy(xDelta, yDelta);
+        }
+    }
+
+    screenScale(): number {
+        if ("screenScale" in $dataSystem.advanced) {
+            return $dataSystem.advanced.screenScale;
+        } else {
+            return 1;
         }
     }
 
