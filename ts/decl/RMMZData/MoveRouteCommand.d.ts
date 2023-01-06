@@ -1,6 +1,6 @@
 declare namespace RMMZData {
     interface MoveRouteCommand {
-        command: number;
+        code: number;
         parameters: any[];
     }
 }

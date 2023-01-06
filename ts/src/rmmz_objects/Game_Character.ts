@@ -97,7 +97,7 @@ class Game_Character extends Game_CharacterBase {
         }
     }
 
-    forceMoveRoute(moveRoute: any) {
+    forceMoveRoute(moveRoute: RMMZData.MoveRoute): void {
         if (!this._originalMoveRoute) {
             this.memorizeMoveRoute();
         }
@@ -127,7 +127,7 @@ class Game_Character extends Game_CharacterBase {
         }
     }
 
-    processMoveCommand(command: any) {
+    processMoveCommand(command: RMMZData.MoveRouteCommand) {
         const gc = Game_Character;
         const params = command.parameters;
         switch (command.code) {

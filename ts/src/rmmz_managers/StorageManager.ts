@@ -15,9 +15,9 @@ class _StorageManager {
         return Utils.isNwjs();
     }
 
-    static saveObject(saveName: string, object: any) {
+    static saveObject(saveName: string, object: any): Promise<any> {
         return this.objectToJson(object)
-            .then((json: any) => this.jsonToZip(json))
+            .then(json => this.jsonToZip(json))
             .then(zip => this.saveZip(saveName, zip));
     }
 
@@ -27,7 +27,7 @@ class _StorageManager {
             .then((json: string) => this.jsonToObject(json));
     }
 
-    static objectToJson(object: any) {
+    static objectToJson(object: any): Promise<string> {
         return new Promise((resolve, reject) => {
             try {
                 const json = JsonEx.stringify(object);
@@ -49,7 +49,7 @@ class _StorageManager {
         });
     }
 
-    static jsonToZip(json: string) {
+    static jsonToZip(json: string): Promise<any> {
         return new Promise((resolve, reject) => {
             try {
                 // @ts-ignore

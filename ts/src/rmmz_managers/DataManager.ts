@@ -170,7 +170,7 @@ class DataManager {
         return !!(object.data && object.events);
     }
 
-    static extractArrayMetadata(array: any) {
+    static extractArrayMetadata(array: ({ note: string, meta?: { [key: string]: string | boolean } })[]) {
         if (Array.isArray(array)) {
             for (const data of array) {
                 if (data && "note" in data) {
@@ -180,7 +180,7 @@ class DataManager {
         }
     }
 
-    static extractMetadata(data: any) {
+    static extractMetadata(data: { note: string, meta?: { [key: string]: string | boolean } }) {
         const regExp = /<([^<>:]+)(:?)([^>]*)>/g;
         data.meta = {};
         for (; ;) {
