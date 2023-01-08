@@ -30,7 +30,11 @@ class Sprite_Gauge extends Sprite {
         this._flashingCount = 0;
     }
 
-    destroy(options: any) {
+    destroy(options?: {
+        children?: boolean;
+        texture?: boolean;
+        baseTexture?: boolean;
+    }): void {
         this.bitmap.destroy();
         Sprite.prototype.destroy.call(this, options);
     }

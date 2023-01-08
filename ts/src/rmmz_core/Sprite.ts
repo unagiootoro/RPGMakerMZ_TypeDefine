@@ -129,7 +129,11 @@ class Sprite extends PIXI.Sprite {
     //     PIXI.Sprite.prototype.destroy.call(this, options);
     // }
 
-    destroy(options?: any): void {
+    destroy(options?: {
+        children?: boolean;
+        texture?: boolean;
+        baseTexture?: boolean;
+    }): void {
         options = { children: true, texture: true };
         PIXI.Sprite.prototype.destroy.call(this, options);
     }
