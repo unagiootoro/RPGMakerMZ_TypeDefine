@@ -217,7 +217,7 @@ class Game_Player extends Game_Character {
         return 0;
     }
 
-    meetsEncounterConditions(encounter: any) {
+    meetsEncounterConditions(encounter: RMMZData.Encounter) {
         return (
             encounter.regionSet.length === 0 ||
             encounter.regionSet.includes(this.regionId())

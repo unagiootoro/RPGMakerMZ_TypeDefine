@@ -3,7 +3,7 @@
 //
 // The game object class for an actor.
 class Game_Actor extends Game_Battler {
-    protected _level!: any;
+    protected _level!: number;
     protected _actorId!: number;
     protected _name!: string;
     protected _nickname!: string;
@@ -13,15 +13,15 @@ class Game_Actor extends Game_Battler {
     protected _faceName!: string;
     protected _faceIndex!: number;
     protected _battlerName!: string;
-    protected _exp!: any;
+    protected _exp!: { [key: number]: number };
     protected _skills!: number[];
     protected _equips!: Game_Item[];
     protected _actionInputIndex!: number;
     protected _lastMenuSkill!: Game_Item;
     protected _lastBattleSkill!: Game_Item;
     protected _lastCommandSymbol!: string | null;
-    protected _profile!: any;
-    protected _stateSteps!: any;
+    protected _profile!: string;
+    protected _stateSteps!: { [key: number]: number };
 
     get level() { return this._level; }
 
@@ -104,7 +104,7 @@ class Game_Actor extends Game_Battler {
         return this._profile;
     }
 
-    setProfile(profile: any) {
+    setProfile(profile: string) {
         this._profile = profile;
     }
 
@@ -202,7 +202,7 @@ class Game_Actor extends Game_Battler {
         }
     }
 
-    initEquips(equips: string | any[]) {
+    initEquips(equips: number[]) {
         const slots = this.equipSlots();
         const maxSlots = slots.length;
         this._equips = [];
@@ -241,11 +241,11 @@ class Game_Actor extends Game_Battler {
         return this.equips().filter(item => item && DataManager.isArmor(item)) as unknown as RMMZData.Armor[];
     }
 
-    hasWeapon(weapon: any) {
+    hasWeapon(weapon: RMMZData.Weapon) {
         return this.weapons().includes(weapon);
     }
 
-    hasArmor(armor: any) {
+    hasArmor(armor: RMMZData.Armor) {
         return this.armors().includes(armor);
     }
 
@@ -291,11 +291,11 @@ class Game_Actor extends Game_Battler {
         }
     }
 
-    isEquipped(item: any) {
+    isEquipped(item: RMMZData.Weapon | RMMZData.Armor) {
         return this.equips().includes(item);
     }
 
-    discardEquip(item: any) {
+    discardEquip(item: RMMZData.Weapon | RMMZData.Armor) {
         const slotId = this.equips().indexOf(item);
         if (slotId >= 0) {
             this._equips[slotId].setObject(null);
@@ -359,8 +359,8 @@ class Game_Actor extends Game_Battler {
         return bestItem;
     }
 
-    calcEquipItemPerformance(item: { params: any[]; }) {
-        return item.params.reduce((a: any, b: any) => a + b);
+    calcEquipItemPerformance(item: { params: number[]; }) {
+        return item.params.reduce((a: number, b: number) => a + b);
     }
 
     isSkillWtypeOk(skill: RMMZData.Item) {
@@ -425,7 +425,7 @@ class Game_Actor extends Game_Battler {
 
     skillTypes() {
         const skillTypes = this.addedSkillTypes().sort((a: number, b: number) => a - b);
-        return skillTypes.filter((x: any, i: any, self: string | any[]) => self.indexOf(x) === i);
+        return skillTypes.filter((x: number, i: number, self: number[]) => self.indexOf(x) === i);
     }
 
     skills() {
@@ -568,23 +568,23 @@ class Game_Actor extends Game_Battler {
         return true;
     }
 
-    changeLevel(level: number, show: any) {
+    changeLevel(level: number, show: boolean) {
         level = level.clamp(1, this.maxLevel());
         this.changeExp(this.expForLevel(level), show);
     }
 
-    learnSkill(skillId: any) {
+    learnSkill(skillId: number) {
         if (!this.isLearnedSkill(skillId)) {
             this._skills.push(skillId);
             this._skills.sort((a, b) => a - b);
         }
     }
 
-    forgetSkill(skillId: any) {
+    forgetSkill(skillId: number) {
         this._skills.remove(skillId);
     }
 
-    isLearnedSkill(skillId: any) {
+    isLearnedSkill(skillId: number) {
         return this._skills.includes(skillId);
     }
 
@@ -592,7 +592,7 @@ class Game_Actor extends Game_Battler {
         return this.skills().includes($dataSkills[skillId]);
     }
 
-    changeClass(classId: number, keepExp: any) {
+    changeClass(classId: number, keepExp: number) {
         if (keepExp) {
             this._exp[classId] = this.currentExp();
         }
@@ -624,7 +624,7 @@ class Game_Actor extends Game_Battler {
         return $gameSystem.isSideView();
     }
 
-    performActionStart(action: { isGuard: () => any; }) {
+    performActionStart(action: { isGuard: () => number; }) {
         Game_Battler.prototype.performActionStart.call(this, action);
     }
 
@@ -770,7 +770,7 @@ class Game_Actor extends Game_Battler {
         }
     }
 
-    updateStateSteps(state: { removeByWalking: any; id: number; }) {
+    updateStateSteps(state: RMMZData.State) {
         if (state.removeByWalking) {
             if (this._stateSteps[state.id] > 0) {
                 if (--this._stateSteps[state.id] === 0) {
@@ -897,9 +897,9 @@ class Game_Actor extends Game_Battler {
         this._lastCommandSymbol = symbol;
     }
 
-    testEscape(item: { effects: any[]; }) {
+    testEscape(item: RMMZData.Item) {
         return item.effects.some(
-            (            effect: { code: number; }) => effect && effect.code === Game_Action.EFFECT_SPECIAL
+            effect => effect && effect.code === Game_Action.EFFECT_SPECIAL
         );
     }
 

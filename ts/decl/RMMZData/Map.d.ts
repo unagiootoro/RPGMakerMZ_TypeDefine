@@ -18,7 +18,7 @@ declare namespace RMMZData {
         };
         disableDashing: boolean;
         displayName: string;
-        encounterList: any[];
+        encounterList: Encounter[];
         encounterStep: number;
         height: number;
         note: string;

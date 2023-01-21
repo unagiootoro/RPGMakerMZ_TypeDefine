@@ -23,8 +23,8 @@ class Tilemap extends PIXI.Container {
     animationFrame!: number;
     protected _needsBitmapsUpdate!: boolean;
     protected _needsRepaint!: boolean;
-    protected _lowerLayer!: any;
-    protected _upperLayer!: any;
+    protected _lowerLayer!: Tilemap.Layer;
+    protected _upperLayer!: Tilemap.Layer;
     protected _lastAnimationFrame!: number;
     protected _lastStartX!: number;
     protected _lastStartY!: number;
@@ -719,6 +719,7 @@ namespace Tilemap {
         static MAX_GL_TEXTURES = 3;
         static VERTEX_STRIDE = 9 * 4;
 
+        z?: number;
         protected _elements!: [number, number, number, number, number, number, number][];
         protected _indexBuffer!: any;
         protected _indexArray!: Uint16Array | Uint32Array | Float32Array;

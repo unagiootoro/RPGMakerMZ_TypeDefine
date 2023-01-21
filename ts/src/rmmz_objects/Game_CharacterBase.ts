@@ -231,7 +231,7 @@ class Game_CharacterBase {
 
     isCollidedWithEvents(x: number, y: number): boolean {
         const events = $gameMap.eventsXyNt(x, y);
-        return events.some((event: { isNormalPriority: () => any; }) => event.isNormalPriority());
+        return events.some(event => event.isNormalPriority());
     }
 
     isCollidedWithVehicles(x: number, y: number): boolean {
@@ -480,7 +480,7 @@ class Game_CharacterBase {
         this._isObjectCharacter = true;
     }
 
-    checkEventTriggerTouchFront(d: any) {
+    checkEventTriggerTouchFront(d: number) {
         const x2 = $gameMap.roundXWithDirection(this._x, d);
         const y2 = $gameMap.roundYWithDirection(this._y, d);
         this.checkEventTriggerTouch(x2, y2);
