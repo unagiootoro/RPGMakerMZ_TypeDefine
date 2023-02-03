@@ -311,7 +311,7 @@ class Tilemap extends PIXI.Container {
         }
     }
 
-    _addTile(layer: any, tileId: number, dx: number, dy: number) {
+    _addTile(layer: Tilemap.Layer, tileId: number, dx: number, dy: number) {
         if (Tilemap.isVisibleTile(tileId)) {
             if (Tilemap.isAutotile(tileId)) {
                 this._addAutotile(layer, tileId, dx, dy);
@@ -321,7 +321,7 @@ class Tilemap extends PIXI.Container {
         }
     }
 
-    _addNormalTile(layer: any, tileId: number, dx: number, dy: number) {
+    _addNormalTile(layer: Tilemap.Layer, tileId: number, dx: number, dy: number) {
         let setNumber = 0;
 
         if (Tilemap.isTileA5(tileId)) {
@@ -338,7 +338,7 @@ class Tilemap extends PIXI.Container {
         layer.addRect(setNumber, sx, sy, dx, dy, w, h);
     }
 
-    _addAutotile(layer: any, tileId: number, dx: number, dy: number) {
+    _addAutotile(layer: Tilemap.Layer, tileId: number, dx: number, dy: number) {
         const kind = Tilemap.getAutotileKind(tileId);
         const shape = Tilemap.getAutotileShape(tileId);
         const tx = kind % 8;
@@ -417,7 +417,7 @@ class Tilemap extends PIXI.Container {
         }
     }
 
-    _addTableEdge(layer: any, tileId: number, dx: number, dy: number) {
+    _addTableEdge(layer: Tilemap.Layer, tileId: number, dx: number, dy: number) {
         if (Tilemap.isTileA2(tileId)) {
             const autotileTable = Tilemap.FLOOR_AUTOTILE_TABLE;
             const kind = Tilemap.getAutotileKind(tileId);
@@ -442,7 +442,7 @@ class Tilemap extends PIXI.Container {
         }
     }
 
-    _addShadow(layer: any, shadowBits: number, dx: number, dy: number) {
+    _addShadow(layer: Tilemap.Layer, shadowBits: number, dx: number, dy: number) {
         if (shadowBits & 0x0f) {
             const w1 = this.tileWidth / 2;
             const h1 = this.tileHeight / 2;
