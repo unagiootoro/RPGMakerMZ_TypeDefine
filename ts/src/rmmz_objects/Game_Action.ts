@@ -11,9 +11,9 @@ class Game_Action {
     protected _targetIndex!: number;
     protected _reflectionTarget!: Game_Battler;
 
-    constructor(subject: Game_BattlerBase, forcing?: boolean);
+    constructor(subject: Game_Battler, forcing?: boolean);
 
-    constructor(...args: [Game_BattlerBase, boolean]) {
+    constructor(...args: [Game_Battler, boolean]) {
         this.initialize(...args);
     }
 
@@ -35,7 +35,7 @@ class Game_Action {
     static HITTYPE_PHYSICAL = 1;
     static HITTYPE_MAGICAL = 2;
 
-    initialize(subject: Game_BattlerBase, forcing?: boolean): void {
+    initialize(subject: Game_Battler, forcing?: boolean): void {
         this._subjectActorId = 0;
         this._subjectEnemyIndex = -1;
         this._forcing = forcing || false;
@@ -48,7 +48,7 @@ class Game_Action {
         this._targetIndex = -1;
     }
 
-    setSubject(subject: Game_BattlerBase): void {
+    setSubject(subject: Game_Battler): void {
         if (subject.isActor()) {
             this._subjectActorId = (subject as unknown as Game_Actor).actorId();
             this._subjectEnemyIndex = -1;
@@ -426,7 +426,7 @@ class Game_Action {
         return 0; // CHANGED: ビルドのために追加
     }
 
-    testApply(target: Game_BattlerBase): boolean {
+    testApply(target: Game_Battler): boolean {
         return (
             this.testLifeAndDeath(target) &&
             ($gameParty.inBattle() ||
@@ -436,7 +436,7 @@ class Game_Action {
         );
     }
 
-    testLifeAndDeath(target: Game_BattlerBase): boolean {
+    testLifeAndDeath(target: Game_Battler): boolean {
         if (this.isForOpponent() || this.isForAliveFriend()) {
             return target.isAlive();
         } else if (this.isForDeadFriend()) {
@@ -446,13 +446,13 @@ class Game_Action {
         }
     }
 
-    hasItemAnyValidEffects(target: Game_BattlerBase) {
+    hasItemAnyValidEffects(target: Game_Battler) {
         return this.item().effects.some((effect: RMMZData.Effect) =>
             this.testItemEffect(target, effect)
         );
     }
 
-    testItemEffect(target: Game_BattlerBase, effect: RMMZData.Effect) {
+    testItemEffect(target: Game_Battler, effect: RMMZData.Effect) {
         switch (effect.code) {
             case Game_Action.EFFECT_RECOVER_HP:
                 return (
@@ -481,7 +481,7 @@ class Game_Action {
         }
     }
 
-    itemCnt(target: Game_BattlerBase) {
+    itemCnt(target: Game_Battler) {
         if (this.isPhysical() && target.canMove()) {
             return target.cnt;
         } else {
@@ -489,7 +489,7 @@ class Game_Action {
         }
     }
 
-    itemMrf(target: Game_BattlerBase) {
+    itemMrf(target: Game_Battler) {
         if (this.isMagical()) {
             return target.mrf;
         } else {
@@ -497,7 +497,7 @@ class Game_Action {
         }
     }
 
-    itemHit(target: Game_BattlerBase) {
+    itemHit(target: Game_Battler) {
         const successRate = this.item().successRate;
         if (this.isPhysical()) {
             return successRate * 0.01 * this.subject().hit;
@@ -506,7 +506,7 @@ class Game_Action {
         }
     }
 
-    itemEva(target: Game_BattlerBase) {
+    itemEva(target: Game_Battler) {
         if (this.isPhysical()) {
             return target.eva;
         } else if (this.isMagical()) {
@@ -516,7 +516,7 @@ class Game_Action {
         }
     }
 
-    itemCri(target: Game_BattlerBase): number {
+    itemCri(target: Game_Battler): number {
         return this.item().damage.critical
             ? this.subject().cri * (1 - target.cev)
             : 0;
@@ -831,7 +831,7 @@ class Game_Action {
         }
     }
 
-    itemEffectCommonEvent(target: Game_BattlerBase, effect: RMMZData.Effect) {
+    itemEffectCommonEvent(target: Game_Battler, effect: RMMZData.Effect) {
         //
     }
 
@@ -839,7 +839,7 @@ class Game_Action {
         target.result().success = true;
     }
 
-    applyItemUserEffect(target: Game_BattlerBase) {
+    applyItemUserEffect(target: Game_Battler) {
         const value = Math.floor(this.item().tpGain * this.subject().tcr);
         this.subject().gainSilentTp(value);
     }

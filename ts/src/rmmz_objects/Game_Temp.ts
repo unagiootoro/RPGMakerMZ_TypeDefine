@@ -108,7 +108,7 @@ class Game_Temp {
 
     // prettier-ignore
     requestAnimation(
-        targets: (Game_Character | Game_BattlerBase)[], animationId: number, mirror: boolean = false
+        targets: (Game_Character | Game_Battler)[], animationId: number, mirror: boolean = false
     ) {
         if ($dataAnimations[animationId]) {
             const request = {
@@ -175,7 +175,7 @@ class Game_Temp {
 }
 
 interface IAnimationRequest {
-    targets: (Game_Character | Game_BattlerBase)[];
+    targets: (Game_Character | Game_Battler)[];
     animationId: number;
     mirror: boolean;
 }
