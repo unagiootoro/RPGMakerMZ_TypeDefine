@@ -108,7 +108,7 @@ class Game_Temp {
 
     // prettier-ignore
     requestAnimation(
-        targets: (Game_CharacterBase | Game_BattlerBase)[], animationId: number, mirror: boolean = false
+        targets: (Game_Character | Game_BattlerBase)[], animationId: number, mirror: boolean = false
     ) {
         if ($dataAnimations[animationId]) {
             const request = {
@@ -129,7 +129,7 @@ class Game_Temp {
         return this._animationQueue.shift();
     }
 
-    requestBalloon(target: Game_CharacterBase, balloonId: number) {
+    requestBalloon(target: Game_Character, balloonId: number) {
         const request = { target: target, balloonId: balloonId };
         this._balloonQueue.push(request);
         if (target.startBalloon) {
@@ -175,12 +175,12 @@ class Game_Temp {
 }
 
 interface IAnimationRequest {
-    targets: (Game_CharacterBase | Game_BattlerBase)[];
+    targets: (Game_Character | Game_BattlerBase)[];
     animationId: number;
     mirror: boolean;
 }
 
 interface IBalloonRequest {
-    target: Game_CharacterBase;
+    target: Game_Character;
     balloonId: number;
 }

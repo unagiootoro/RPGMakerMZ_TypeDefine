@@ -287,7 +287,7 @@ class Game_Character extends Game_CharacterBase {
         }
     }
 
-    moveTowardCharacter(character: Game_CharacterBase) {
+    moveTowardCharacter(character: Game_Character) {
         const sx = this.deltaXFrom(character.x);
         const sy = this.deltaYFrom(character.y);
         if (Math.abs(sx) > Math.abs(sy)) {
@@ -303,7 +303,7 @@ class Game_Character extends Game_CharacterBase {
         }
     }
 
-    moveAwayFromCharacter(character: Game_CharacterBase) {
+    moveAwayFromCharacter(character: Game_Character) {
         const sx = this.deltaXFrom(character.x);
         const sy = this.deltaYFrom(character.y);
         if (Math.abs(sx) > Math.abs(sy)) {
@@ -319,7 +319,7 @@ class Game_Character extends Game_CharacterBase {
         }
     }
 
-    turnTowardCharacter(character: Game_CharacterBase) {
+    turnTowardCharacter(character: Game_Character) {
         const sx = this.deltaXFrom(character.x);
         const sy = this.deltaYFrom(character.y);
         if (Math.abs(sx) > Math.abs(sy)) {
@@ -329,7 +329,7 @@ class Game_Character extends Game_CharacterBase {
         }
     }
 
-    turnAwayFromCharacter(character: Game_CharacterBase) {
+    turnAwayFromCharacter(character: Game_Character) {
         const sx = this.deltaXFrom(character.x);
         const sy = this.deltaYFrom(character.y);
         if (Math.abs(sx) > Math.abs(sy)) {
@@ -440,7 +440,7 @@ class Game_Character extends Game_CharacterBase {
         this.setDirection(2 + Math.randomInt(4) * 2);
     }
 
-    swap(character: Game_CharacterBase) {
+    swap(character: Game_Character) {
         const newX = character.x;
         const newY = character.y;
         character.locate(this.x, this.y);

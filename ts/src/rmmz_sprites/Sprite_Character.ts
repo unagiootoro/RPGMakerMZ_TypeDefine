@@ -4,7 +4,7 @@
 // The sprite for displaying a character.
 
 class Sprite_Character extends Sprite {
-    protected _character!: Game_CharacterBase | null;
+    protected _character!: Game_Character | null;
     protected _balloonDuration!: number;
     protected _tilesetId!: number;
     protected _upperBody!: Sprite | null;
@@ -15,13 +15,13 @@ class Sprite_Character extends Sprite {
     protected _isBigCharacter!: boolean;
     protected _bushDepth!: number;
 
-    constructor(character: Game_CharacterBase);
+    constructor(character: Game_Character);
 
     constructor(...args: []) {
         super(...args);
     }
 
-    initialize(character: Game_CharacterBase) {
+    initialize(character: Game_Character) {
         Sprite.prototype.initialize.call(this);
         this.initMembers();
         this.setCharacter(character);
@@ -37,11 +37,11 @@ class Sprite_Character extends Sprite {
         this._lowerBody = null;
     }
 
-    setCharacter(character: Game_CharacterBase) {
+    setCharacter(character: Game_Character) {
         this._character = character;
     }
 
-    checkCharacter(character: Game_CharacterBase) {
+    checkCharacter(character: Game_Character) {
         return this._character === character;
     }
 

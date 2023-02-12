@@ -211,7 +211,7 @@ class Spriteset_Map extends Spriteset_Base {
         }
     }
 
-    findTargetSprite(target: Game_CharacterBase) {
+    findTargetSprite(target: Game_Character) {
         return this._characterSprites.find(sprite => sprite.checkCharacter(target));
     }
 

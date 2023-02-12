@@ -50,7 +50,7 @@ class Game_Follower extends Game_Character {
         this.setTransparent($gamePlayer.isTransparent());
     };
 
-    chaseCharacter(character: Game_CharacterBase) {
+    chaseCharacter(character: Game_Character) {
         const sx = this.deltaXFrom(character.x);
         const sy = this.deltaYFrom(character.y);
         if (sx !== 0 && sy !== 0) {
