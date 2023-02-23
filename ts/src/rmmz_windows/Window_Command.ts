@@ -105,7 +105,7 @@ class Window_Command extends Window_Selectable {
     callOkHandler(): void {
         const symbol = this.currentSymbol();
         if (this.isHandled(symbol)) {
-            this.callHandler(symbol);
+            this.callHandler(symbol!);
         } else if (this.isHandled("ok")) {
             Window_Selectable.prototype.callOkHandler.call(this);
         } else {

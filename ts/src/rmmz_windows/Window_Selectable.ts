@@ -8,7 +8,7 @@ class Window_Selectable extends Window_Scrollable {
     protected _cursorFixed!: boolean;
     protected _cursorAll!: boolean;
     protected _helpWindow!: Window_Help | null;
-    protected _handlers!: any;
+    protected _handlers!: { [key: string]: Function };
     protected _doubleTouch!: boolean;
     protected _canRepeat!: boolean;
 
@@ -201,7 +201,7 @@ class Window_Selectable extends Window_Scrollable {
         }
     }
 
-    setHandler(symbol: string, method: { (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; (): void; }) {
+    setHandler(symbol: string, method: Function) {
         this._handlers[symbol] = method;
     }
 
@@ -209,9 +209,9 @@ class Window_Selectable extends Window_Scrollable {
         return !!this._handlers[symbol as any];
     }
 
-    callHandler(symbol: string | null) {
+    callHandler(symbol: string) {
         if (this.isHandled(symbol)) {
-            this._handlers[symbol as any]();
+            this._handlers[symbol]();
         }
     }
 
