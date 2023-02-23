@@ -34,5 +34,6 @@ declare namespace RMMZData {
         width: number;
         data: number[];
         events: (Event | null)[];
+        meta: MetaDataType;
     }
 }

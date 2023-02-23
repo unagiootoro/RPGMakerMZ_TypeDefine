@@ -15,5 +15,6 @@ declare namespace RMMZData {
         nickname: string
         note: string;
         profile: string;
+        meta: MetaDataType;
     }
 }

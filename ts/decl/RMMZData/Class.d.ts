@@ -7,5 +7,6 @@ declare namespace RMMZData {
         name: string;
         note: string;
         params: number[][];
+        meta: MetaDataType;
     }
 }

@@ -25,6 +25,6 @@ declare namespace RMMZData {
         messageType: number;
         price: number;
         itypeId: number;
-        meta?: any;
+        meta: MetaDataType;
     }
 }

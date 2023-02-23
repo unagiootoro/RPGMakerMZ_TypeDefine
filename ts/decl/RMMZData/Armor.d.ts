@@ -10,5 +10,6 @@ declare namespace RMMZData {
         note: string;
         params: number[];
         price: number;
+        meta: MetaDataType;
     }
 }

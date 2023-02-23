@@ -6,5 +6,6 @@ declare namespace RMMZData {
         name: string;
         note: string;
         tilesetNames: string[];
+        meta: MetaDataType;
     }
 }

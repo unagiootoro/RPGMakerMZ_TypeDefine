@@ -11,6 +11,6 @@ declare namespace RMMZData {
         params: number[];
         price: number;
         wtypeId: number;
-        meta?: any;
+        meta: MetaDataType;
     }
 }
