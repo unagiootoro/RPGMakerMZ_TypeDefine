@@ -156,9 +156,9 @@ class Scene_Base extends Stage {
         return this.fadeSpeed() * 2;
     }
 
-    scaleSprite(sprite: { bitmap: { width: number; height: number; }; scale: { x: number; y: number; }; }) {
-        const ratioX = Graphics.width / sprite.bitmap.width;
-        const ratioY = Graphics.height / sprite.bitmap.height;
+    scaleSprite(sprite: Sprite) {
+        const ratioX = Graphics.width / sprite.bitmap!.width;
+        const ratioY = Graphics.height / sprite.bitmap!.height;
         const scale = Math.max(ratioX, ratioY, 1.0);
         sprite.scale.x = scale;
         sprite.scale.y = scale;
