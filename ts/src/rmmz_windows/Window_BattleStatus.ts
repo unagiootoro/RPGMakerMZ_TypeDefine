@@ -44,7 +44,7 @@ class Window_BattleStatus extends Window_StatusBase {
 
     selectActor(actor: Game_Actor | null) {
         const members = $gameParty.battleMembers();
-        this.select(members.indexOf(actor));
+        this.select(members.indexOf(actor as any));
     }
 
     update() {

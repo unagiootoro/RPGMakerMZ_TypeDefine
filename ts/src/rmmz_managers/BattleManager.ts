@@ -360,7 +360,7 @@ class BattleManager {
         const members = $gameParty.battleMembers();
         let actor = this._currentActor;
         for (; ;) {
-            const currentIndex = members.indexOf(actor);
+            const currentIndex = members.indexOf(actor as any);
             actor = members[currentIndex + (forward ? 1 : -1)];
             if (!actor || actor.canInput()) {
                 break;
@@ -523,8 +523,8 @@ class BattleManager {
         }
     }
 
-    static allBattleMembers() {
-        return $gameParty.battleMembers().concat($gameTroop.members());
+    static allBattleMembers(): Game_Battler[] {
+        return ($gameParty.battleMembers() as Game_Battler[]).concat($gameTroop.members() as Game_Battler[]);
     }
 
     static makeActionOrders() {

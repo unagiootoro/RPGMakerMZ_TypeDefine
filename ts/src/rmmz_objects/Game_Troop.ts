@@ -3,7 +3,7 @@
 //
 // The game object class for a troop and the battle-related data.
 
-class Game_Troop extends Game_Unit {
+class Game_Troop extends Game_Unit<Game_Enemy> {
     // prettier-ignore
     static LETTER_TABLE_HALF = [
         " A", " B", " C", " D", " E", " F", " G", " H", " I", " J", " K", " L", " M",
@@ -19,8 +19,8 @@ class Game_Troop extends Game_Unit {
     protected _turnCount!: number;
     protected _enemies!: Game_Enemy[];
     protected _troopId!: number;
-    protected _eventFlags!: any;
-    protected _namesCount!: any;
+    protected _eventFlags!: { [key: number]: boolean };
+    protected _namesCount!: { [key: string]: number };
 
     initialize() {
         Game_Unit.prototype.initialize.call(this);

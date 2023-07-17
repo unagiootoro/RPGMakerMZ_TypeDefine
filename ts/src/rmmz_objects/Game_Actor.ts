@@ -291,12 +291,12 @@ class Game_Actor extends Game_Battler {
         }
     }
 
-    isEquipped(item: RMMZData.Weapon | RMMZData.Armor) {
-        return this.equips().includes(item);
+    isEquipped(item: ItemObject | null) {
+        return this.equips().includes(item as any);
     }
 
-    discardEquip(item: RMMZData.Weapon | RMMZData.Armor) {
-        const slotId = this.equips().indexOf(item);
+    discardEquip(item: ItemObject | null) {
+        const slotId = this.equips().indexOf(item as any);
         if (slotId >= 0) {
             this._equips[slotId].setObject(null);
         }

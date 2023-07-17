@@ -66,11 +66,11 @@ class Game_Action {
         }
     }
 
-    friendsUnit(): Game_Unit {
+    friendsUnit(): Game_Unit<Game_Battler> {
         return this.subject().friendsUnit();
     }
 
-    opponentsUnit(): Game_Unit {
+    opponentsUnit(): Game_Unit<Game_Battler> {
         return this.subject().opponentsUnit();
     }
 
@@ -345,7 +345,7 @@ class Game_Action {
         }
     }
 
-    randomTargets(unit: Game_Unit): Game_Battler[] {
+    randomTargets(unit: Game_Unit<Game_Battler>): Game_Battler[] {
         const targets = [];
         for (let i = 0; i < this.numTargets(); i++) {
             targets.push(unit.randomTarget());
@@ -353,7 +353,7 @@ class Game_Action {
         return targets;
     }
 
-    targetsForDead(unit: Game_Unit) {
+    targetsForDead(unit: Game_Unit<Game_Battler>) {
         if (this.isForOne()) {
             return [unit.smoothDeadTarget(this._targetIndex)];
         } else {
@@ -361,7 +361,7 @@ class Game_Action {
         }
     }
 
-    targetsForAlive(unit: Game_Unit): Game_Battler[] {
+    targetsForAlive(unit: Game_Unit<Game_Battler>): Game_Battler[] {
         if (this.isForOne()) {
             if (this._targetIndex < 0) {
                 return [unit.randomTarget()];
@@ -373,7 +373,7 @@ class Game_Action {
         }
     }
 
-    targetsForDeadAndAlive(unit: Game_Unit): Game_Battler[] {
+    targetsForDeadAndAlive(unit: Game_Unit<Game_Battler>): Game_Battler[] {
         if (this.isForOne()) {
             return [unit.members()[this._targetIndex]];
         } else {

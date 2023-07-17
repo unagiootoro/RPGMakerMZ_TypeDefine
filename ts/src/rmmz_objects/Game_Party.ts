@@ -4,7 +4,7 @@
 // The game object class for the party. Information such as gold and items is
 // included.
 
-class Game_Party extends Game_Unit {
+class Game_Party extends Game_Unit<Game_Actor> {
     static ABILITY_ENCOUNTER_HALF = 0;
     static ABILITY_ENCOUNTER_NONE = 1;
     static ABILITY_CANCEL_SURPRISE = 2;
@@ -18,9 +18,9 @@ class Game_Party extends Game_Unit {
     protected _menuActorId!: number;
     protected _targetActorId!: number;
     protected _actors!: number[];
-    protected _items!: any;
-    protected _weapons!: any;
-    protected _armors!: any;
+    protected _items!: { [key: number]: number };
+    protected _weapons!: { [key: number]: number };
+    protected _armors!: { [key: number]: number };
 
     initialize() {
         Game_Unit.prototype.initialize.call(this);
@@ -51,7 +51,7 @@ class Game_Party extends Game_Unit {
         return this.size() === 0;
     }
 
-    members(): any {
+    members(): Game_Actor[] {
         return this.inBattle() ? this.battleMembers() : this.allMembers();
     }
 
@@ -59,7 +59,7 @@ class Game_Party extends Game_Unit {
         return this._actors.map(id => $gameActors.actor(id)!);
     }
 
-    battleMembers(): any[] {
+    battleMembers(): Game_Actor[] {
         return this.allBattleMembers().filter(actor => actor!.isAppeared());
     }
 
@@ -115,7 +115,7 @@ class Game_Party extends Game_Unit {
         return this.items().concat(this.equipItems() as any);
     }
 
-    itemContainer(item: ItemObject | null) {
+    itemContainer(item: ItemObject | null): { [key: number]: number } | null {
         if (!item) {
             return null;
         } else if (DataManager.isItem(item)) {
@@ -196,7 +196,7 @@ class Game_Party extends Game_Unit {
     removeActor(actorId: number) {
         if (this._actors.includes(actorId)) {
             const actor = $gameActors.actor(actorId);
-            const wasBattleMember = this.battleMembers().includes(actor);
+            const wasBattleMember = this.battleMembers().includes(actor as any);
             this._actors.remove(actorId);
             $gamePlayer.refresh();
             $gameMap.requestRefresh();
@@ -255,7 +255,7 @@ class Game_Party extends Game_Unit {
     }
 
     isAnyMemberEquipped(item: ItemObject | null) {
-        return this.members().some((actor: Game_Actor) => actor.equips().includes(item as any));
+        return this.members().some(actor => actor.equips().includes(item as any));
     }
 
     gainItem(item: ItemObject | null, amount: number, includeEquip?: boolean) {
@@ -322,7 +322,7 @@ class Game_Party extends Game_Unit {
 
     menuActor() {
         let actor = $gameActors.actor(this._menuActorId);
-        if (!this.members().includes(actor)) {
+        if (!this.members().includes(actor as any)) {
             actor = this.members()[0];
         }
         return actor;
@@ -333,7 +333,7 @@ class Game_Party extends Game_Unit {
     }
 
     makeMenuActorNext() {
-        let index = this.members().indexOf(this.menuActor());
+        let index = this.members().indexOf(this.menuActor() as any);
         if (index >= 0) {
             index = (index + 1) % this.members().length;
             this.setMenuActor(this.members()[index]);
@@ -343,7 +343,7 @@ class Game_Party extends Game_Unit {
     }
 
     makeMenuActorPrevious() {
-        let index = this.members().indexOf(this.menuActor());
+        let index = this.members().indexOf(this.menuActor() as any);
         if (index >= 0) {
             index = (index + this.members().length - 1) % this.members().length;
             this.setMenuActor(this.members()[index]);
@@ -354,7 +354,7 @@ class Game_Party extends Game_Unit {
 
     targetActor() {
         let actor = $gameActors.actor(this._targetActorId);
-        if (!this.members().includes(actor)) {
+        if (!this.members().includes(actor as any)) {
             actor = this.members()[0];
         }
         return actor;

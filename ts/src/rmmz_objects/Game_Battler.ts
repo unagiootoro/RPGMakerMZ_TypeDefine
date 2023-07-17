@@ -25,8 +25,8 @@ abstract class Game_Battler extends Game_BattlerBase {
 
     abstract isSpriteVisible(): boolean;
     abstract name(): string;
-    abstract friendsUnit(): Game_Unit;
-    abstract opponentsUnit(): Game_Unit;
+    abstract friendsUnit(): Game_Unit<Game_Battler>;
+    abstract opponentsUnit(): Game_Unit<Game_Battler>;
     abstract index(): number;
     abstract isBattleMember(): boolean;
 

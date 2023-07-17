@@ -3,7 +3,7 @@
 //
 // The superclass of Game_Party and Game_Troop.
 
-class Game_Unit {
+class Game_Unit<T extends Game_Battler> {
     protected _inBattle!: boolean;
 
     constructor(...args: []) {
@@ -18,20 +18,20 @@ class Game_Unit {
         return this._inBattle;
     }
 
-    members(): Game_Battler[] {
+    members(): T[] {
         return [];
     }
 
-    aliveMembers(): Game_Enemy[] {
-        return this.members().filter(member => member.isAlive()) as Game_Enemy[];
+    aliveMembers(): T[] {
+        return this.members().filter(member => member.isAlive());
     }
 
-    deadMembers(): Game_Enemy[] {
-        return this.members().filter(member => member.isDead()) as Game_Enemy[];
+    deadMembers(): T[] {
+        return this.members().filter(member => member.isDead());
     }
 
-    movableMembers(): Game_Enemy[] {
-        return this.members().filter(member => member.canMove()) as Game_Enemy[];
+    movableMembers(): T[] {
+        return this.members().filter(member => member.canMove());
     }
 
     clearActions() {
